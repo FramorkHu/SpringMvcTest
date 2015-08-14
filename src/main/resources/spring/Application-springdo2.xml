@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <!-- spring 使用注解完成自动装配-->
+    <context:annotation-config/>
+
+    <bean id="saxophone" class="com.myorg.springaction.springdo2.Saxophone"/>
+    <bean id="saxophone2" class="com.myorg.springaction.springdo2.Saxophone2"/>
+
+    <bean id="kenny" class="com.myorg.springaction.springdo2.Instrumentalist">
+        <property name="song" value="Jingle Bells"/>
+    </bean>
+
+    <bean id="audience" class="com.myorg.springaction.springdo1.Audience"/>
+
+    <!-- 引入AOP 编程-->
+    <aop:config >
+        <aop:aspect ref="audience">
+            <aop:pointcut id="performance" expression="execution(* com.myorg.springaction.springdo2.Performer.perform(..))"/>
+            <!--<aop:before pointcut-ref="performance"
+                        method="takeSeats"/>
+            <aop:before pointcut-ref="performance"
+                        method="turnOffCallPhone"/>-->
+            <aop:around pointcut-ref="performance"
+                        method="watchPerformance"/>
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="magician" class="com.myorg.springaction.springdo2.Magician"/>
+    <bean id="volunteer" class="com.myorg.springaction.springdo2.Volunteer"/>
+    <aop:config>
+        <aop:aspect ref="magician">
+            <aop:pointcut id="thinking"
+                          expression="execution(
+                          * com.myorg.springaction.springdo2.Thinker.thinkOfSomething(String))
+                          and args(thought)"/>
+            <aop:before pointcut-ref="thinking"
+                        method="interceptThought"
+                        arg-names="thought"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

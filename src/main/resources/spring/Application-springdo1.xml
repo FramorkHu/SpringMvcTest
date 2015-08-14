@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+
+    <!-- spring bean 默认的是单例模式-->
+    <!-- spring 的单例概念仅限于spring上下文范围， 只能保证每个应用的上下文只有一个bean实例-->
+    <!-- 如果不指定name,初始化构造函数参数是有顺序的-->
+    <bean id="juggler" class="com.myorg.springaction.springdo1.Juggler">
+        <constructor-arg value="15" />
+        <constructor-arg value="wasdw" />
+    </bean>
+
+    <!-- prototype作用域表示每次请求都产一个新的实力-->
+    <bean id="ticket" class="com.myorg.springaction.springdo1.Ticket" scope="prototype"/>
+
+    <!--使用工厂方法，创建单例bean-->
+    <!--保证不同的spring上下文只有一个bean实例-->
+    <bean id="stage" class="com.myorg.springaction.springdo1.Stage"
+          factory-method="getInstance"/>
+
+    <!-- 可以使用 InitializingBean,DisposableBean 来实现初始化方法以及bean移除spring上下文之前的方法-->
+    <!-- 缺点是spring的API和bean产生了耦合，因此推荐使用配置文件的方法-->
+    <bean id="auditorium"
+          class="com.myorg.springaction.springdo1.Auditorium"
+          init-method="turnOnLights"
+          destroy-method="turnOffLights"/>
+
+    <bean id="saxophone" class="com.myorg.springaction.springdo1.Saxophone"/>
+    <bean id="kenny" class="com.myorg.springaction.springdo1.Instrumentalist">
+        <property name="song" value="Jingle Bells"/>
+        <property name="instrument" ref="saxophone"/>
+        <!--使用内部bean,不能够被复用-->
+        <!--<property name="instrument">
+            <bean class="com.myorg.springaction.springdo1.Saxophone"/>
+        </property>-->
+    </bean>
+
+    <!-- 使用Spel表达式取出kenny bean中的属性-->
+    <!-- 如果属性是private，需要有get方法，如果是public 则不需要-->
+    <!-- 实际上就是调用 car1.setSong(kenny.getSong())-->
+    <!-- SpEL表达式还可以调用方法，用?. 代替. 用来确保左边项的值不为空-->
+    <bean id="car1" class="com.myorg.springaction.springdo1.Instrumentalist">
+        <property name="song" value=" copy"/>
+        <property name="instrument" ref="saxophone"/>
+    </bean>
+
+    <!-- 使用T()运算符会调用类作用域的方法和常量-->
+    <bean id="mathProperty" class="com.myorg.springaction.springdo1.MathProperty">
+        <property name="multiplier" value="#{T(java.lang.Math).PI}"/>
+        <property name="randomNumber" value="#{T(java.lang.Math).random()}"/>
+
+    </bean>
+
+    <util:map id="test">
+        <entry key="aaa" value="qwq1"/>
+        <entry key="bbb" value="qwq2"/>
+        <entry key="ccc" value="qwq3"/>
+        <entry key="ddd" value="qwq4"/>
+    </util:map>
+
+    <util:properties id="setting" location="classpath:/profile/jdbc.properties"/>
+    <bean id="testBvo" class="com.myorg.springaction.springdo1.TestBvo">
+        <property name="chosenData" value="#{test['aaa']}"/>
+        <property name="propertyData" value="#{setting['a']}"/>
+    </bean>
+
+
+</beans>
