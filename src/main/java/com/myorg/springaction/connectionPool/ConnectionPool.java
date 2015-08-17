@@ -5,6 +5,8 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -23,11 +25,16 @@ public class ConnectionPool implements ConnectionPoolBase {
     // 将线程和连接绑定，保证事务能统一执行
     private static ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
 
-    public ConnectionPool(){
-
+    public ConnectionPool(DataSourceProperty sourceProperty){
+        this.sourceProperty = sourceProperty;
+        initPool();
+        checkPool();
     }
 
-    public void initPool(){
+    /**
+     * 初始化连接池
+     */
+    private void initPool(){
         try {
 
             Connection conn;
@@ -46,7 +53,7 @@ public class ConnectionPool implements ConnectionPoolBase {
 
     }
 
-    public Connection newConnection() throws ClassNotFoundException, SQLException {
+    private Connection newConnection() throws ClassNotFoundException, SQLException {
 
         Connection connection = null;
         if (sourceProperty != null){
@@ -76,6 +83,10 @@ public class ConnectionPool implements ConnectionPoolBase {
 
     }
 
+    /**
+     * 从连接池中获取链接
+     * @return
+     */
     @Override
     public Connection getConnection() {
         Connection conn = null;
@@ -110,28 +121,68 @@ public class ConnectionPool implements ConnectionPoolBase {
 
     }
 
+
     @Override
     public Connection getCurrentConnection() {
-        return null;
+
+        Connection connection = threadLocal.get();
+        if ( !isValid(connection) ){
+            connection = getConnection();
+        }
+        return connection;
     }
 
     @Override
-    public void releaseConnection(Connection conn) {
+    public synchronized void releaseConnection(Connection conn) {
 
+        if (isValid(conn) && !(freeConnection.size()>sourceProperty.getMaxConnections())){
+
+            freeConnection.add(conn);
+            activeConnection.remove(conn);
+            contActive--;
+            threadLocal.remove();
+        }
     }
 
     @Override
     public void destory() {
 
+        List<Connection> allConnection = new CopyOnWriteArrayList<Connection>();
+        allConnection.addAll(activeConnection);
+        allConnection.addAll(freeConnection);
+
+        for (Connection conn : allConnection){
+            try {
+                if (isValid(conn)){
+                    conn.close();
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        isActive = false;
+        contActive =0;
     }
 
     @Override
     public boolean isActive() {
-        return false;
+        return isActive;
     }
 
     @Override
     public void checkPool() {
 
+        if (sourceProperty.isCheakPool()){
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("空闲连接数:" + freeConnection.size());
+                    System.out.println("活动连接数:" + activeConnection.size());
+                    System.out.println("总连接数:" + contActive);
+                }
+            },sourceProperty.getLazyCheck(), sourceProperty.getPeriodCheck());
+        }
     }
 }
