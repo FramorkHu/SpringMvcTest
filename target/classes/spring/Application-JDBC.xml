@@ -41,7 +41,10 @@
 
     <!---->
     <aop:config>
-        <aop:advisor advice-ref="txAdvice" pointcut="execution(* *..)"/>
+        <aop:aspect>
+            <aop:pointcut id="useSlaveDBConf" expression=""
+        </aop:aspect>
     </aop:config>
+
 
 </beans>
