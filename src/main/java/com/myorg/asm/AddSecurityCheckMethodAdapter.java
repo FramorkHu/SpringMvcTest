@@ -14,7 +14,9 @@ public class AddSecurityCheckMethodAdapter extends MethodAdapter {
 
     @Override
     public void visitCode() {
-        visitMethodInsn(Opcodes.INVOKESTATIC,"com.myorg.asm.SecurityChecker","check","()V");
+        //需要写路径名称
+        //写入包名无法识别类 com.myorg.asm.SecurityChecker
+        visitMethodInsn(Opcodes.INVOKESTATIC,"com/myorg/asm/SecurityChecker","check","()V");
     }
 
 }

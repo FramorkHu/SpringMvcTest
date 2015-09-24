@@ -14,17 +14,28 @@ public class Generator {
 
     public static void main(String[] args) throws Exception{
 
-        ClassReader classReader = new ClassReader("com.myorg.asm.Account");
+        String className = "com.myorg.asm.Account";
+
+        ClassReader classReader = new ClassReader(className);
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         ClassAdapter classAdapter = new AddSecurityCheckClassAdapter(classWriter);
         classReader.accept(classAdapter, ClassReader.SKIP_DEBUG);
 
         byte[] data = classWriter.toByteArray();
 
-        File file = new File("target\\classes\\com\\myorg\\asm\\Account.class");
+
+        File file = new File(getClassPath(className));
         FileOutputStream outputStream = new FileOutputStream(file);
         outputStream.write(data);
         outputStream.close();
+
+    }
+
+    public static String getClassPath(String className){
+
+        String allName = className.replace(".", File.separator);
+
+        return "target/classes/"+allName+".class";
 
     }
 

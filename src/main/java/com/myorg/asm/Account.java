@@ -6,7 +6,6 @@ package com.myorg.asm;
 public class Account {
 
     public void operate(){
-        SecurityChecker.check();
         System.out.println("account operate");
     }
 }
