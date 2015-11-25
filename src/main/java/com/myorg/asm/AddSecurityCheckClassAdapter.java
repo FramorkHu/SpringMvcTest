@@ -4,6 +4,8 @@ import aj.org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
+import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
+import org.springframework.aop.support.JdkRegexpMethodPointcut;
 
 /**
  * Created by huyan on 2015/9/24.

@@ -1,8 +1,12 @@
 package com.myorg.springaction.springdo1;
 
+import com.myorg.springaction.implementAop.FooClass;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -11,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 public class Test2 {
     public static void main(String args[]) throws InterruptedException {
 
-
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/Application-springdo1.xml");
+        testAnnotation();
+        /*ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/Application-springdo1.xml");
 
         ApplicationContext context2 = new ClassPathXmlApplicationContext("classpath:spring/Application-springdo1.xml");
 
@@ -33,7 +37,19 @@ public class Test2 {
         System.out.println(juggler1);
         System.out.println(juggler2);
         System.out.println(juggler3);
-        System.out.println(juggler4);
+        System.out.println(juggler4);*/
+
+    }
+
+    public static void testAnnotation(){
+        Class c = FooClass.class;
+        Method[] methods = c.getDeclaredMethods();
+        for (Method method : methods){
+            Object annotation = method.getAnnotation(Override.class);
+            System.out.println(annotation.toString());
+
+        }
+
 
     }
 }
