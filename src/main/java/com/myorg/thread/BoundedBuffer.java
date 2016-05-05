@@ -51,7 +51,7 @@ public class BoundedBuffer<E> {
         int i = takePosition;
         E x = items[i];
         items[i] = null;
-        takePosition = (i++ == items.length) ? 0 : i;
+        takePosition = (++i == items.length) ? 0 : i;
         return x;
     }
 
