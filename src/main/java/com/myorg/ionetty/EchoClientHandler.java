@@ -16,8 +16,8 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("Client active ");
-        ctx.writeAndFlush("Netty rocks client111!");
-        super.channelActive(ctx);
+        //ctx.writeAndFlush("Netty rocks client111!");
+        //super.channelActive(ctx);
     }
 
     @Override

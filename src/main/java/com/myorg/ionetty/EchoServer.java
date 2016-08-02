@@ -1,6 +1,8 @@
 package com.myorg.ionetty;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -11,6 +13,7 @@ import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.util.CharsetUtil;
 
 import java.net.InetSocketAddress;
 import java.nio.channels.Channels;
@@ -42,12 +45,8 @@ public class EchoServer {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     ChannelPipeline pipeline = socketChannel.pipeline();
-
-                    // 以("\n")为结尾分割的 解码器
-                    //pipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
-                    /*pipeline.addLast("decoder", new StringDecoder());
-                    pipeline.addLast("encoder", new StringEncoder());*/
                     // 字符串解码 和 编码
+
                     pipeline.addLast("decoder", new MessageToMessageDecoder<Integer>() {
 
                         @Override
@@ -56,11 +55,11 @@ public class EchoServer {
                         }
                     });
 
-                    pipeline.addLast("encoder", new MessageToMessageEncoder<String>() {
+                    pipeline.addLast("encoder", new MessageToMessageEncoder<Integer>() {
                         @Override
-                        protected void encode(ChannelHandlerContext channelHandlerContext, String integer, List<Object> list) throws Exception {
+                        protected void encode(ChannelHandlerContext channelHandlerContext, Integer integer, List<Object> list) throws Exception {
 
-                            list.add(Integer.parseInt(integer));
+                            list.add(String.valueOf(integer));
                         }
                     });
 
@@ -83,36 +82,5 @@ public class EchoServer {
             workerGroup.shutdownGracefully();
         }
     }
-
-   /* private final int port;
-
-    public EchoServer(int port){
-        this.port = port;
-    }
-
-    public void start() throws Exception{
-
-        EventLoopGroup group = new NioEventLoopGroup();
-        try {
-            ServerBootstrap b = new ServerBootstrap();
-            b.group(group).channel(NioServerSocketChannel.class).localAddress(port)
-                    .childHandler(new ChannelInitializer<Channel>() {
-                        @Override
-                        protected void initChannel(Channel ch) throws Exception {
-                            ch.pipeline().addLast(new EchoServerHandler());
-                        }
-                    });
-            //Binds server, waits for server to close, and releases resources
-            ChannelFuture f = b.bind().sync();
-            System.out.println(EchoServer.class.getName() + "started and listen on " + f.channel().localAddress());
-            f.channel().closeFuture().sync();
-        } finally {
-            group.shutdownGracefully().sync();
-        }
-    }
-
-    public static void main(String[] args) throws Exception {
-        new EchoServer(8888).start();
-    }*/
 
 }

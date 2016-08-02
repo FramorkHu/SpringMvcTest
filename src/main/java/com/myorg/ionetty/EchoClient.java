@@ -3,6 +3,7 @@ package com.myorg.ionetty;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.CompositeByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -13,6 +14,7 @@ import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.util.CharsetUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,7 +58,7 @@ public class EchoClient {
                              *
                              * */
                             //pipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
-                           /* pipeline.addLast("decoder", new StringDecoder());
+                            /*pipeline.addLast("decoder", new StringDecoder());
                             pipeline.addLast("encoder", new StringEncoder());*/
 
                             pipeline.addLast("decoder", new MessageToMessageDecoder<Integer>() {
@@ -67,11 +69,11 @@ public class EchoClient {
                                 }
                             });
 
-                            pipeline.addLast("encoder", new MessageToMessageEncoder<String>() {
+                            pipeline.addLast("encoder", new MessageToMessageEncoder<Integer>() {
                                 @Override
-                                protected void encode(ChannelHandlerContext channelHandlerContext, String integer, List<Object> list) throws Exception {
+                                protected void encode(ChannelHandlerContext channelHandlerContext, Integer integer, List<Object> list) throws Exception {
 
-                                    list.add(Integer.parseInt(integer));
+                                    list.add(String.valueOf(integer));
                                 }
                             });
 
@@ -80,24 +82,9 @@ public class EchoClient {
                         }
                     });
 
+
             // 连接服务端
 
-            /*ExecutorService service = Executors.newFixedThreadPool(10);
-            final Channel ch = b.connect(host, port).sync().channel();
-            for (int i=0; i<10000; i++){
-                final int n = i;
-                service.submit(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        ch.writeAndFlush(n);
-                    }
-                });
-
-            }
-
-            TimeUnit.SECONDS.sleep(2);
-            service.shutdown();*/
             Channel ch = b.connect(host, port).sync().channel();
             // 控制台输入
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -111,7 +98,8 @@ public class EchoClient {
                  * 之所以用\r\n结尾 是因为我们在handler中添加了 DelimiterBasedFrameDecoder 帧解码。
                  * 这个解码器是一个根据\n符号位分隔符的解码器。所以每条消息的最后必须加上\n否则无法识别和解码
                  * */
-                ch.writeAndFlush(line);
+                Integer number = Integer.parseInt(line);
+                ch.writeAndFlush(number);
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -121,35 +109,5 @@ public class EchoClient {
         }
     }
 
-
-   /* private final int port;
-    private final String host;
-
-    public EchoClient(String host, int port){
-        this.host = host;
-        this.port = port;
-    }
-
-    public void start() throws Exception {
-        EventLoopGroup group = new NioEventLoopGroup();
-        try {
-            Bootstrap b = new Bootstrap();
-            b.group(group).channel(NioSocketChannel.class).remoteAddress(new InetSocketAddress(host, port))
-                    .handler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new EchoClientHandler());
-                        }
-                    });
-            ChannelFuture f = b.connect().sync();
-            f.channel().closeFuture().sync();
-        } finally {
-            group.shutdownGracefully().sync();
-        }
-    }
-
-    public static void main(String[] args) throws Exception {
-        new EchoClient("192.168.0.106", 8888).start();
-    }*/
 
 }

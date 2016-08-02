@@ -16,7 +16,7 @@ public class HelloServerHandler extends SimpleChannelInboundHandler<String> {
         System.out.println(ctx.channel().remoteAddress() + " Say : " + msg);
 
         // 返回客户端消息 - 我已经接收到了你的消息
-        ctx.writeAndFlush("-1");
+        //ctx.writeAndFlush("-1");
     }
 
     /*
@@ -30,9 +30,14 @@ public class HelloServerHandler extends SimpleChannelInboundHandler<String> {
 
         System.out.println("RamoteAddress : " + ctx.channel().remoteAddress() + " active !");
 
-        ctx.writeAndFlush( "11");
+        /*ctx.writeAndFlush( "11");
 
-        super.channelActive(ctx);
+        super.channelActive(ctx);*/
     }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+        ctx.close();
+    }
 }
