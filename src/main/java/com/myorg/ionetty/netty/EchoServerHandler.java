@@ -1,5 +1,6 @@
 package com.myorg.ionetty.netty;
 
+import com.alibaba.fastjson.JSON;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -18,7 +19,9 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
         ByteBuf in = (ByteBuf) msg;
-        System.out.println("server received :"+ in.toString(CharsetUtil.UTF_8));
+
+        BaseData baseData = JSON.parseObject(in.toString(CharsetUtil.UTF_8), BaseData.class);
+        System.out.println("server received :"+ baseData.getId());
         ctx.writeAndFlush(in);
     }
 
