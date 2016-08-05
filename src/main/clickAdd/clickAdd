@@ -255,7 +255,8 @@ End Sub
 
 Sub logOut()
  Call clickPosition(minePosX, minePosY, 2000)
- Call clickPosition(mineSetPosX, mineSetPosY, 2000)
+ Call clickPosition(mineSetPosX, mineSetPosY, 2000) 
+ cleanCach
  Dim logOutX,logOutY
  FindMultiColor 130,733,680,1000,"0042EB","0|4|0042EB,0|6|0042EB,0|8|0042EB,0|10|0042EB",0,1,logOutX,logOutY
  Call clickPosition(logOutX, logOutY, 2000)
@@ -480,4 +481,18 @@ Sub checkMyAtt()
 		beforeOperat
 
 	End If
+End Sub
+
+
+
+Sub cleanCach()
+	
+	Dim intX,intY
+	FindMultiColor 33, 259, 162, 500, "888888", "7|22|888888,14|22|888888,7|39|888888,21|39|888888,-8|20|888888", 0, 1, intX, intY
+	
+	If intX > 0 Then 
+		Call clickPosition(intX, intY, 2000)
+		Call clickPosition(240,789, 2000)
+	End If
+	
 End Sub
