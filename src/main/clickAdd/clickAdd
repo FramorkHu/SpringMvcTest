@@ -19,8 +19,8 @@ mineSetPosY = 1170
 Dim waitingLoopCount, oneWaitTime
 waitingLoopCount = 100
 oneWaitTime = 1000
-Dim flag = "five"
-Dim accountFilePath = "/mnt/shell/emulated/0/Download/other/account5.txt"
+Dim flag = "two"
+Dim accountFilePath = "/mnt/shell/emulated/0/Download/other/account2.txt"
 Dim clickAddInfoFilePath = "/mnt/shell/emulated/0/Download/other/clickAdd"&DateTime.Format("%Y-%m-%d")&".txt"
 Dim errorAccountFilePath = "/mnt/shell/emulated/0/Download/other/errorAccount"&DateTime.Format("%Y-%m-%d")&".txt"
 Dim accountArray = File.ReadLines(accountFilePath)
@@ -46,6 +46,7 @@ attNameArray(5)=Array("美女爱渣男",mnazn,2)
 attNameArray(6)=Array("尚女神",sns,1)
 attNameArray(7)=Array("八卦热点头条",bgrdtt,1)
 attNameArray(8) = Array("随心之旅", sxzn,1)
+attNameArray(9) = Array("趣闻看看看", qwkkk,1)
 
 //attNameArray(7)=Array("木牛新资讯",mnxzx,2)
 /*attNameArray(0)=Array("曼巴足球",mbzq,6)
