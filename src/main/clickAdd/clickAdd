@@ -38,15 +38,15 @@ Dim qwkkk = "47|13|1A1A1A,81|19|1A1A1A,82|3|1A1A1A,106|6|1A1A1A,104|19|1A1A1A,13
 Dim wzryswz = "67|20|1A1A1A,26|16|1A1A1A,101|3|1A1A1A,101|19|1A1A1A,125|5|1A1A1A,156|10|F3FCFF"
 
 Dim attNameArray = Array()
-attNameArray(0)=Array("曼巴足球",mbzq,4)
-attNameArray(1)=Array("王者荣耀钻石解说",wzry,4)
+attNameArray(0)=Array("趣闻看看看",qwkkk,1)
+/*attNameArray(1)=Array("王者荣耀钻石解说",wzry,4)
 attNameArray(2)=Array("企鹅漫画",qemh,4)
 attNameArray(3)=Array("王者荣耀上王者",wzryswz,4)
 attNameArray(4)=Array("体坛咨讯",ttzx,4)
 attNameArray(5)=Array("美女爱渣男",mnazn,4)
 attNameArray(6)=Array("八卦热点头条",bgrdtt,2)
 attNameArray(7) = Array("随心之旅", sxzn,2)
-attNameArray(8)=Array("尚女神",sns,2)
+attNameArray(8)=Array("尚女神",sns,2)*/
 
 Dim begSehAttX = 10
 Dim begSehAttY = 172
