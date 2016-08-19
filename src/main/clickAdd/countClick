@@ -1,0 +1,46 @@
+Dim clickAddPath = "/mnt/shell/emulated/0/Download/other/clickAdd2016-08-01.txt"
+Dim clickDataList = File.ReadLines(clickAddPath)
+
+Dim attNameArray = Array()
+attNameArray(0)=Array("曼巴足球",0)
+attNameArray(1)=Array("王者荣耀钻石解说",0)
+attNameArray(2)=Array("企鹅漫画",0)
+attNameArray(3) = Array("王者荣耀上王者", 0)
+attNameArray(4) = Array("体坛咨讯", 0)
+attNameArray(5)=Array("美女爱渣男",0)
+attNameArray(6) = Array("随心之旅",0)
+attNameArray(7)=Array("八卦热点头条",0)
+attNameArray(8)=Array("尚女神",0)
+
+Dim allCount = 0
+For Each clickData In clickDataList
+
+	Dim infos = Split(clickData," ")
+	Dim count = CInt(UTF8.Mid(infos(4), 5,1))
+	Dim gzh = infos(3)
+
+	For Each attName In attNameArray
+
+		Dim attNameP = "关注号["&attName(0)&"]"
+		Dim attCount = attName(1)
+		If gzh = attNameP Then
+			attCount = attCount + count
+			attName(1) = attCount
+		End If
+
+	Next
+
+	allCount = allCount+count
+Next
+
+Dim data
+For Each attName In attNameArray
+	data = data&"\n"&Join(attName, " ")
+Next
+
+Call info(allCount&" "&data)
+Sub info(内容)
+    TracePrint 内容
+    ShowMessage 内容
+    Delay 4500
+End Sub

@@ -40,10 +40,10 @@ attNameArray(0)=Array("曼巴足球",mbzq,5)
 attNameArray(1)=Array("王者荣耀钻石解说",wzry,5)
 attNameArray(2)=Array("企鹅漫画",qemh,5)
 attNameArray(3) = Array("王者荣耀上王者", wzryswz, 5)
-attNameArray(4)=Array("体坛咨讯",ttzx,5)
+attNameArray(4) = Array("体坛咨讯", ttzx, 5)
+attNameArray(5)=Array("美女爱渣男",mnazn,4)
 attNameArray(5) = Array("随心之旅", sxzn,4)
-/*attNameArray(5)=Array("美女爱渣男",mnazn,1)
-attNameArray(6)=Array("八卦热点头条",bgrdtt,1)
+/*attNameArray(6)=Array("八卦热点头条",bgrdtt,1)
 attNameArray(7) = Array("随心之旅", sxzn,1)
 attNameArray(8)=Array("尚女神",sns,1)*/
 
@@ -53,7 +53,7 @@ Dim endSehAttX = 709
 Dim endSehAttY = 990
 
 Dim currentAccount
-
+ 
 a
 
 Sub a()
@@ -80,16 +80,16 @@ Sub a()
 
    		Delay 15000
    		clickPosition attentionX, attentionY, 3000
-
-   		If checkLock() Then
+   		
+   		If checkLock() Then 
    			Call info("log error")
-   			Call File.Append(errorAccountFilePath , GetNetworkTime() & "用户[" & currentAccount & "]登录异常\n")
+   			Call File.Append(errorAccountFilePath , DateTime.Format("%Y-%m-%d %H:%M:%S") & " " & currentAccount & "\n")
    		Else
    			accountAllOperate
-   		End If
+   		End If   		
   	Else
    		Call info("log error")
-   		Call File.Append(errorAccountFilePath , GetNetworkTime() & "用户[" & currentAccount & "]登录异常\n")
+   		Call File.Append(errorAccountFilePath , DateTime.Format("%Y-%m-%d %H:%M:%S") & " " & currentAccount & "\n")
    		back
    		Delay 2000
    	End If
@@ -153,7 +153,7 @@ Function oneAccount(loopCnt, swiCnt, clickX, clickY, clickStoreArray, addClickMa
   		If waitPageLodingOneColor(95,423,229,498, "5771F9", 100, 1000) Then
   			Delay 2000
    			For swiCnt
-   				Call info("登录用户"&currentAccount&" 点击广告数"&addClick&" 最大点击量:"&addClickMaxCount&" "&attName)
+   				Call info("登录用户"&currentAccount&" ("&addClick&" ,"&addClickMaxCount&") "&attName)
   				If ifNoResponse() Then
   					Goto noResponseTag
   				Else
@@ -186,35 +186,35 @@ Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, 
   	Dim addIntX, addIntY
   	FindMultiColor 2, 1079, 169, 1190, "C3773A","0|2|C3773A,0|5|C3773A", 0, 1, addIntX, addIntY
   	If addIntY > 0 Then
-  		If UBOUND(clickStoreArray) < 0 Then
+  		If UBOUND(clickStoreArray) < 0 Then  			
     		addClick = addClick + 1
     		getStoreColorLocal (addIntX,addIntY,clickStoreArray)
-    		Call clickPosition(addIntX, addIntY, 7000)
+    		Call clickPosition(addIntX, addIntY, 7000)    		
 
     		Call clickPosition(31,87, 1000)
-    		back
+    		back    	
     		Goto overFindAdd
   		Else
   			For Each clickStore In clickStoreArray
   				Dim storeIntX, storeIntY
   				FindMultiColor 2, 1079, 169, 1190, "C3773A", clickStore, 0, 1, storeIntX, storeIntY
   				If storeIntX>0 Then
-  					Call info("same Shops")
+  					Call info("same")
   					back
   					Goto overFindAdd
   				End If
   			Next
   		End If
-
+    	
     	addClick = addClick + 1
     	getStoreColorLocal (addIntX,addIntY,clickStoreArray)
-    	Call clickPosition(addIntX, addIntY, 7000)
+    	Call clickPosition(addIntX, addIntY, 7000)    	
         Delay 1000
 
     	Call clickPosition(31,87, 1000)
     	back
-
-  	Else
+    
+  	Else  		
    		back
   	End If
 
@@ -248,38 +248,44 @@ back
 Delay 2000
 back
  Call clickPosition(minePosX, minePosY, 2000)
- Call clickPosition(mineSetPosX, mineSetPosY, 2000)
+ Call clickPosition(mineSetPosX, mineSetPosY, 2000) 
  cleanCach
  Call clickPosition(345, 1148, 2000)
  KeyPress "Enter"
  Delay 100
  KeyPress "Enter"
-
+ 
  Dim i=0
  While i < 100
-  		If fingOneColor(93, 511, 292, 584, "E5B533") Then
+  		If fingOneColor(93, 511, 292, 584, "E5B533") Then 
   			Delay 1000
-   			i = i + 1
+   			i = i + 1  			
   		Else
    			Exit While
   		End If
-  Wend
-
+  Wend 
+ 
 End Sub
 
 
 Function login(user, pass, loopCount, waitTime, afterYZLoopCount)
- Call clickPosition(minePosX, minePosY, 2500)
- Call clickPosition(147, 245, 500)
+ Call clickPosition(minePosX, minePosY, 3000)
+ Call clickPosition(147, 245, 1000) 
  InputText user
- Delay 2000
+ Delay 500
+ For 13
+ 	KeyPress "del"
+ Next
+ Delay 1000
+ InputText user
+ Delay 1000
  KeyPress "Tab"
  Delay 1000
  InputText pass
  Delay 2000
-
+ 
  Call clickPosition (361,541,2000)
-
+ 
  Dim i=0
  Dim noYZFlage = 2
  While i < loopCount
@@ -287,7 +293,7 @@ Function login(user, pass, loopCount, waitTime, afterYZLoopCount)
 
  		If fingYanz(21, 570, 298, 667, "2042E9", "50|10|2042E9, 60|10|2042E9") Then
  			noYZFlage = 0
- 			Vibrate 1000
+ 			Vibrate 1000 
      		//PlaySound "/system/media/audio/alarms/Alarm_Beep_03.ogg"
      	ElseIf noYZFlage = 0 Then
      		noYZFlage = 1
@@ -386,7 +392,7 @@ Sub getStoreColorLocal(intX, intY, clickStoreArray)
 		Dim currentColor
 		For Each color In colorArray
 			FindColor startCurrentX, currentY, endCurrentX, 1128, color, 3, 1, colorX, colorY
-			If (colorX > 0) Then
+			If (colorX > 0) Then			 
 				currentColor = color
 				Exit For
 			End If
@@ -456,26 +462,26 @@ End Sub
 
 
 Sub cleanCach()
-
+	
 	Dim intX,intY
 	FindMultiColor 38, 473, 134, 565, "888888","13|19|888888,5|18|888888,6|37|888888", 0, 1, intX, intY
-
-	If intX > 0 Then
+	
+	If intX > 0 Then 
 		Call clickPosition(intX, intY, 2000)
 		Call clickPosition(220,829, 2000)
 	End If
-
+	
 End Sub
 
 Function checkLock()
-
+	
 	Dim intX,intY
-
+	
 	FindMultiColor 118, 980, 319, 1071, "5771F9", "20|10|5771F9,20|20|5771F9,30|20|5771F9", 0, 1, intX, intY
-	If intX > 0 Then
+	If intX > 0 Then 
 		checkLock = True
-	Else
+	Else 
 		checkLock = False
 	End If
-
+		
 End Function
