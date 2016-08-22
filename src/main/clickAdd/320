@@ -1,67 +1,73 @@
 Dim screenX,screenY
 screenX = GetScreenX()
 screenY = GetScreenY()
-Dim attentionX, attentionY, myAttentionX,myAttentionY,fristPosX, firstPosY,addX,addY,minePosX,minePosY,mineSetPosX,mineSetPosY,logOutX,logOutY
-attentionX = 349
-attentionY = 89
-myAttentionX = 363
-myAttentionY = 184
-fristPosX = 388
-firstPosY = 633
+Dim ttkbX,ttkbY,attentionX, attentionY, myAttentionX,myAttentionY,fristPosX, firstPosY,addX,addY,minePosX,minePosY,mineSetPosX,mineSetPosY,logOutX,logOutY
+ttkbX = 77
+ttkbY = 464
+attentionX = 270
+attentionY = 78
+myAttentionX = 307
+myAttentionY = 147
+fristPosX = 379
+firstPosY = 511
 addX = 378
 addY = 1113
-minePosX = 44
-minePosY = 84
-mineSetPosX = 447
-mineSetPosY = 1134
+minePosX = 33
+minePosY = 78
+mineSetPosX = 427
+mineSetPosY = 1170
 Dim waitingLoopCount, oneWaitTime
 waitingLoopCount = 100
 oneWaitTime = 1000
 Dim flag = "1"
 Dim baseFile = "/sdcard/Download/"
 Dim accountFilePath = baseFile&"account"&flag&".txt"
-Dim clickAddInfoFilePath = baseFile&"clickAdd/clickAdd"&DateTime.Format("%Y-%m-%d")&".txt"
-Dim errorAccountFilePath = baseFile&"errorAccount/errorAccount"&DateTime.Format("%Y-%m-%d")&".txt"
+Dim clickAddInfoFilePath = baseFile&"clickAdd"&DateTime.Format("%Y-%m-%d")&".txt"
+Dim errorAccountFilePath = baseFile&"errorAccount"&DateTime.Format("%Y-%m-%d")&".txt"
+Dim yzmFilePath = baseFile&"yzm"&DateTime.Format("%Y-%m-%d")&".txt"
 Dim accountArray = File.ReadLines(accountFilePath)
-
-Dim mbzq = "33|12|1A1A1A,109|11|1A1A1A,109|5|1A1A1A,73|21|1A1A1A,143|13|F3FCFF"
-Dim wzry = "132|12|1A1A1A,122|22|1A1A1A,103|9|1A1A1A,201|19|1A1A1A,232|14|F3FCFF"
-Dim qemh =  "1|21|1A1A1A,45|19|1A1A1A,85|12|1A1A1A,98|1|1A1A1A,135|13|F3FCFF"
-Dim ttzx = "10|13|1A1A1A,46|11|1A1A1A,76|2|1A1A1A,103|10|1A1A1A,141|13|F3FCFF"
-Dim bgrdtt = "43|4|1A1A1A,109|3|1A1A1A,75|16|1A1A1A,-26|11|1B1B1B,143|14|F3FCFF"
-Dim sns = "7|6|1B1B1B,-33|14|1A1A1A,-42|18|1A1A1A,39|24|1A1A1A,71|13|F3FCFF"
-Dim sxzn = "-3|6|1B1B1B,-58|15|1A1A1A,-75|14|1B1B1B,35|18|1A1A1A,72|13|F3FCFF"
-Dim mnazn = "14|6|1A1A1A,57|14|1B1B1B,89|3|1A1A1A,95|13|1A1A1A,160|13|F3FCFF"
-Dim qwkkk = "76|9|1A1A1A,114|18|1A1A1A,35|17|1A1A1A,74|21|1A1A1A,142|13|F3FCFF"
-Dim wzryswz = "0|8|1A1A1A,130|14|1A1A1A,160|3|1A1A1A,156|20|1A1A1A,200|14|F3FCFF"
+Dim mbzq = "-22|1|1A1A1A,-36|8|1A1A1A,-28|13|1A1A1A,-21|20|1A1A1A,-37|18|1A1A1A,26|10|F3FCFF"
+Dim wzry = "44|9|1A1A1A,85|15|1A1A1A,121|17|1A1A1A,150|6|1A1A1A,155|11|1A1A1A,181|10|F3FCFF"
+Dim mnxzx = "-10|9|1A1A1A,-10|13|1A1A1A,9|13|1A1A1A,0|20|1A1A1A,-18|16|1A1A1A,-35|6|1A1A1A,-26|1|1A1A1A,104|10|F3FCFF"
+Dim qemh =  "-6|14|1A1A1A,-3|20|1A1A1A,9|20|1A1A1A,18|12|1A1A1A,27|6|1A1A1A,35|15|1A1A1A,105|10|F3FCFF"
+Dim ttzx = "40|19|1A1A1A,22|9|1A1A1A,16|3|1A1A1A,23|17|1A1A1A,16|15|1A1A1A,102|10|F3FCFF"
+Dim bgrdtt = "2|8|1A1A1A,55|14|1A1A1A,77|12|1A1A1A,82|3|1A1A1A,135|10|F3FCFF"
+Dim sns = "26|16|1A1A1A,-4|17|1A1A1A,4|11|1A1A1A,-9|14|1A1A1A,54|9|1A1A1A,60|7|1A1A1A,80|10|F3FCFF"
+Dim sxzn = "31|16|1A1A1A,34|19|1A1A1A,64|9|1A1A1A,79|8|1A1A1A,86|19|1A1A1A,115|9|F3FCFF"
+Dim mnazn = "23|6|1A1A1A,27|19|1A1A1A,74|13|1A1A1A,-24|14|1A1A1A,106|10|F3FCFF"
+Dim qwkkk = "47|13|1A1A1A,81|19|1A1A1A,82|3|1A1A1A,106|6|1A1A1A,104|19|1A1A1A,132|9|F3FCFF"
+Dim wzryswz = "67|20|1A1A1A,26|16|1A1A1A,101|3|1A1A1A,101|19|1A1A1A,125|5|1A1A1A,156|10|F3FCFF"
 
 Dim attNameArray = Array()
-attNameArray(0)=Array("曼巴足球",mbzq,5)
-attNameArray(1)=Array("王者荣耀钻石解说",wzry,5)
-attNameArray(2)=Array("企鹅漫画",qemh,5)
-attNameArray(3) = Array("王者荣耀上王者", wzryswz, 5)
-attNameArray(4) = Array("体坛咨讯", ttzx, 5)
-attNameArray(5)=Array("美女爱渣男",mnazn,4)
-attNameArray(5) = Array("随心之旅", sxzn,4)
-/*attNameArray(6)=Array("八卦热点头条",bgrdtt,1)
-attNameArray(7) = Array("随心之旅", sxzn,1)
-attNameArray(8)=Array("尚女神",sns,1)*/
+attNameArray(0) = Array("随心之旅", sxzn,4) 
+attNameArray(1)=Array("曼巴足球",mbzq,6)
 
-Dim begSehAttX = 7
-Dim begSehAttY = 211
-Dim endSehAttX = 709
-Dim endSehAttY = 990
+/*attNameArray(1)=Array("王者荣耀钻石解说",wzry,4)
+attNameArray(2)=Array("企鹅漫画",qemh,4)
+attNameArray(3)=Array("王者荣耀上王者",wzryswz,4)
+attNameArray(4)=Array("体坛咨讯",ttzx,4)
+attNameArray(5)=Array("美女爱渣男",mnazn,4)
+attNameArray(6)=Array("八卦热点头条",bgrdtt,2)
+attNameArray(7) = Array("随心之旅", sxzn,2)
+attNameArray(8)=Array("尚女神",sns,2)*/
+
+Dim begSehAttX = 10
+Dim begSehAttY = 172
+Dim endSehAttX = 700
+Dim endSehAttY = 589
+Dim sehMoveX = 180
+Dim sehMoveY = 57
 
 Dim currentAccount
- 
+
+
 a
 
-Sub a()
- KeepScreen True
 
+Sub a()
  clickPosition minePosX, minePosY, 2000
 
- If not(fingYanz(19, 461, 315,584, "C0C0C0", "50|10|C0C0C0, 60|10|C0C0C0")) Then
+ If not(fingYanz(114, 401, 279, 440, "C0C0C0", "50|10|C0C0C0, 60|10|C0C0C0")) Then
   KeyPress "Back"
   Delay 1000
   accountAllOperate
@@ -74,22 +80,15 @@ Sub a()
  For Each account In accountArray
  	currentAccount = account
  	accountInfo = Split(account, "|")
-  	Call info("登录用户" & accountInfo(0) & " " & accountInfo(1))
-  	File.DeleteLine accountFilePath, 1
+  	Call info(accountInfo(0) & " " & accountInfo(1))
+
   	If login(accountInfo(0), accountInfo(1), 120, 1000, 10) Then
 
-   		Delay 15000
-   		clickPosition attentionX, attentionY, 3000
-   		
-   		If checkLock() Then 
-   			Call info("log error")
-   			Call File.Append(errorAccountFilePath , DateTime.Format("%Y-%m-%d %H:%M:%S") & " " & currentAccount & "\n")
-   		Else
-   			accountAllOperate
-   		End If   		
+   		Delay 7000
+   		accountAllOperate
   	Else
    		Call info("log error")
-   		Call File.Append(errorAccountFilePath , DateTime.Format("%Y-%m-%d %H:%M:%S") & " " & currentAccount & "\n")
+   		Call File.Append(errorAccountFilePath , DateTime.Format("%Y-%m-%d %H:%M:%S") & "用户[" & currentAccount & "]登录异常\n")
    		back
    		Delay 2000
    	End If
@@ -111,7 +110,7 @@ Sub accountAllOperate()
 			FindMultiColor begSehAttX, begSehAttY, endSehAttX, endSehAttY, "1A1A1A", attNamePos, 0, 1, intX, intY
 			If intX > 0 Then
 				Call info("找到"&attName)
-				Dim clickCount = oneAccount(2, 10, intX, intY, clickStoreArray, addClickMaxCount,attName)
+				Dim clickCount = oneAccount(2, 10, intX, intY, clickStoreArray, addClickMaxCount)
 				Call File.Append(clickAddInfoFilePath, flag&" "&DateTime.Format("%Y-%m-%d %H:%M:%S") & " 关注号[" & attName & "] 点击量[" & clickCount & "] 点击用户[" & currentAccount & "]\n")
 
 			Else
@@ -135,7 +134,7 @@ End Sub
 
 Function beforeOperat()
  clickPosition attentionX, attentionY, 3000
- If waitPageLoding(304,160,470,195,"999999","6|13|999999,39|17|999999,64|8|999999",100,3000) Then
+ If waitPageLoding(304,129,420,161,"999999","-20|1|999999,5|10|999999,24|11|999999,30|6|999999",100,3000) Then
   clickPosition myAttentionX, myAttentionY, 5000
   beforeOperat = True
  Else
@@ -144,16 +143,16 @@ Function beforeOperat()
 End Function
 
 
-Function oneAccount(loopCnt, swiCnt, clickX, clickY, clickStoreArray, addClickMaxCount,attName)
+Function oneAccount(loopCnt, swiCnt, clickX, clickY, clickStoreArray, addClickMaxCount)
 	Dim addClick = 0
 	For loopCnt
-		Delay 1000
+		Delay 2000
 		checkMyAtt
 		clickPosition clickX, clickY, 2000
-  		If waitPageLodingOneColor(95,423,229,498, "5771F9", 100, 1000) Then
+  		If waitPageLodingOneColor(105, 348, 172, 381, "5771F9", 100, 1000) Then
   			Delay 2000
    			For swiCnt
-   				Call info("登录用户"&currentAccount&" ("&addClick&" ,"&addClickMaxCount&") "&attName)
+   				Call info(currentAccount&" ("&addClick&"  "&addClickMaxCount)
   				If ifNoResponse() Then
   					Goto noResponseTag
   				Else
@@ -179,25 +178,27 @@ End Function
 
 Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, addClick)
  Call clickPosition(fristPosX, firstPosY, 2000)
- If waitPageLoding(266,590,451,692 , "E0E0DF","24|49|E0E0DF,-30|50|E0E0DF,-53|55|E0E0DF", 100, 1000) Then
+ If waitPageLoding(194, 559, 513, 774, "E0E0DF", "-22|32|E0E0DF,37|35|E0E0DF,-40|46|E0E0DF", 100, 1000) Then
  	Delay 5000
   	swipeDown
-  	Delay 500
+  	Delay 1500
   	Dim addIntX, addIntY
-  	FindMultiColor 2, 1079, 169, 1190, "C3773A","0|2|C3773A,0|5|C3773A", 0, 1, addIntX, addIntY
+  	FindMultiColor 2, 1110, 169, 1180, "C3773A", "0|2|C3773A,0|1|C3773A", 0, 1, addIntX, addIntY
   	If addIntY > 0 Then
-  		If UBOUND(clickStoreArray) < 0 Then  			
+  		If UBOUND(clickStoreArray) < 0 Then
     		addClick = addClick + 1
     		getStoreColorLocal (addIntX,addIntY,clickStoreArray)
-    		Call clickPosition(addIntX, addIntY, 7000)    		
+    		Call clickPosition(addIntX, addIntY, 7000)
+    		swipeDown
+    		Delay 1000
 
-    		Call clickPosition(31,87, 1000)
-    		back    	
+    		Call clickPosition(26, 76, 1000)
+    		back
     		Goto overFindAdd
   		Else
   			For Each clickStore In clickStoreArray
   				Dim storeIntX, storeIntY
-  				FindMultiColor 2, 1079, 169, 1190, "C3773A", clickStore, 0, 1, storeIntX, storeIntY
+  				FindMultiColor 2, 1110, 169, 1180, "C3773A", clickStore, 0, 1, storeIntX, storeIntY
   				If storeIntX>0 Then
   					Call info("same")
   					back
@@ -205,16 +206,18 @@ Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, 
   				End If
   			Next
   		End If
-    	
+
     	addClick = addClick + 1
     	getStoreColorLocal (addIntX,addIntY,clickStoreArray)
-    	Call clickPosition(addIntX, addIntY, 7000)    	
+    	Call clickPosition(addIntX, addIntY, 7000)
+    	swipeDown
         Delay 1000
 
-    	Call clickPosition(31,87, 1000)
+    	Call clickPosition(26, 76, 1000)
     	back
-    
-  	Else  		
+    	//back
+  	Else
+
    		back
   	End If
 
@@ -228,8 +231,7 @@ End Function
 
 Sub swipeDown()
  For 100
-  //KeyPress "PageDown"
-  KeyPress "space"
+  KeyPress "PageDown"
  Next
 End Sub
 
@@ -244,57 +246,47 @@ Sub backNewHomePage()
 End Sub
 
 Sub logOut()
-back
-Delay 2000
-back
  Call clickPosition(minePosX, minePosY, 2000)
  Call clickPosition(mineSetPosX, mineSetPosY, 2000) 
  cleanCach
- Call clickPosition(345, 1148, 2000)
+ Dim logOutX,logOutY
+ FindMultiColor 130,733,680,1000,"0042EB","0|4|0042EB,0|6|0042EB,0|8|0042EB,0|10|0042EB",0,1,logOutX,logOutY
+ Call clickPosition(logOutX, logOutY, 2000)
  KeyPress "Enter"
  Delay 100
  KeyPress "Enter"
- 
- Dim i=0
- While i < 100
-  		If fingOneColor(93, 511, 292, 584, "E5B533") Then 
-  			Delay 1000
-   			i = i + 1  			
-  		Else
-   			Exit While
-  		End If
-  Wend 
- 
 End Sub
 
 
 Function login(user, pass, loopCount, waitTime, afterYZLoopCount)
- Call clickPosition(minePosX, minePosY, 3000)
- Call clickPosition(147, 245, 1000) 
+ Call clickPosition(minePosX, minePosY, 2500)
+ Call clickPosition(162, 200, 500)
  InputText user
- Delay 500
- For 13
- 	KeyPress "del"
- Next
- Delay 1000
- InputText user
- Delay 1000
  KeyPress "Tab"
  Delay 1000
  InputText pass
  Delay 2000
- 
- Call clickPosition (361,541,2000)
- 
+ Dim intX,intY
+ FindMultiColor 19,369,669,513,"FFFFFF","-6|11|FFFFFF,26|12|FFFFFF,-1|22|FFFFFF,33|5|FFFFFF,26|20|FFFFFF",0,1,intX,intY
+
+ If intX > 0 Then
+ 	Call clickPosition (intX,intY,2000)
+ End If
+
  Dim i=0
  Dim noYZFlage = 2
+ Dim writeYz = 1
  While i < loopCount
- 	If fingYanz(28,68,103,108, "333333", "-7|12|333333,1|20|333333,8|22|333333") Then
+ 	If fingYanz(20, 57, 93, 95, "333333", "-36|11|333333,-40|1|333333,6|18|333333,-6|16|333333") Then
 
- 		If fingYanz(21, 570, 298, 667, "2042E9", "50|10|2042E9, 60|10|2042E9") Then
+ 		If fingYanz(121, 478, 273, 526, "2042E9", "50|10|2042E9, 60|10|2042E9") Then 
+ 			
+ 			If writeYz = 1 Then 
+ 				Call File.Append(yzmFilePath, user&" "&pass&"\n")
+ 			End If
+ 			writeYz = 2
  			noYZFlage = 0
- 			Vibrate 1000 
-     		//PlaySound "/system/media/audio/alarms/Alarm_Beep_03.ogg"
+     		PlaySound "/system/media/audio/alarms/Alarm_Beep_03.ogg"
      	ElseIf noYZFlage = 0 Then
      		noYZFlage = 1
      		i = loopCount - afterYZLoopCount
@@ -381,9 +373,38 @@ Sub info(内容)
     Delay 1000
 End Sub
 
+Function searchAtt(attName)
+ Dim findXOver = 0
+ Dim intX, intY
+ Dim sehX = begSehAttX,sehY=begSehAttY
+ While (sehY < endSehAttY)
+
+  FindMultiColor sehX, sehY, endSehAttX, endSehAttY, "1A1A1A", attName, 0, 1, intX, intY
+
+  If intX > 0 Then
+   Call info("find" & intX & " " & intY)
+   Call info(sehX&" "&sehY)
+   Exit While
+  Else
+   Call info("no find"&sehX&" "&sehY)
+   If findXOver = 1 Then
+    sehY = sehY + sehMoveY
+    findXOver =0
+   Else
+    If sehX > endSehAttX Then
+     sehX = begSehAttX
+     findXOver = 1
+    Else
+     sehX = sehX + sehMoveX
+    End If
+   End If
+
+  End If
+ Wend
+End Function
 
 Sub getStoreColorLocal(intX, intY, clickStoreArray)
-	Dim startCurrentX = intX+18, currentY = intY, endCurrentX = startCurrentX+18
+	Dim startCurrentX = intX+16, currentY = intY, endCurrentX = startCurrentX+14
 
 	Dim colorPos
 	Dim colorArray = Array("9E9E9E","9A9A9A","A0A0A0","9B9B9B","9C9C9C","999999")
@@ -391,8 +412,9 @@ Sub getStoreColorLocal(intX, intY, clickStoreArray)
 		Dim colorX,colorY
 		Dim currentColor
 		For Each color In colorArray
-			FindColor startCurrentX, currentY, endCurrentX, 1128, color, 3, 1, colorX, colorY
-			If (colorX > 0) Then			 
+			FindColor startCurrentX, currentY, endCurrentX, 1165, color, 3, 1, colorX, colorY
+			If (colorX > 0) Then
+			 	//Call info(currentX&" "&currentY&" "&colorX&" "&colorY)
 				currentColor = color
 				Exit For
 			End If
@@ -407,7 +429,7 @@ Sub getStoreColorLocal(intX, intY, clickStoreArray)
 		End If
 
 		startCurrentX = endCurrentX
-		endCurrentX = endCurrentX + 18
+		endCurrentX = endCurrentX + 14
 	Next
 	Dim arrLen = UBound(clickStoreArray)+1
 	clickStoreArray(arrLen) = colorPos
@@ -442,7 +464,7 @@ End Function
 
 Sub checkMyAtt()
 
-	If not(fingYanz( 271, 58, 450, 110, "666666","51|20|666666,76|15|666666,121|24|666666")) Then
+	If not(fingYanz( 254, 49, 454, 93, "666666", "24|21|666666,40|14|666666,58|11|666666,95|6|666666")) Then
 		back
 		Delay 3000
 		back
@@ -464,24 +486,11 @@ End Sub
 Sub cleanCach()
 	
 	Dim intX,intY
-	FindMultiColor 38, 473, 134, 565, "888888","13|19|888888,5|18|888888,6|37|888888", 0, 1, intX, intY
+	FindMultiColor 33, 259, 162, 500, "888888", "7|22|888888,14|22|888888,7|39|888888,21|39|888888,-8|20|888888", 0, 1, intX, intY
 	
 	If intX > 0 Then 
 		Call clickPosition(intX, intY, 2000)
-		Call clickPosition(220,829, 2000)
+		Call clickPosition(240,789, 2000)
 	End If
 	
 End Sub
-
-Function checkLock()
-	
-	Dim intX,intY
-	
-	FindMultiColor 118, 980, 319, 1071, "5771F9", "20|10|5771F9,20|20|5771F9,30|20|5771F9", 0, 1, intX, intY
-	If intX > 0 Then 
-		checkLock = True
-	Else 
-		checkLock = False
-	End If
-		
-End Function

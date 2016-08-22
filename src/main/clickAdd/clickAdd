@@ -20,17 +20,18 @@ Dim waitingLoopCount, oneWaitTime
 waitingLoopCount = 100
 oneWaitTime = 1000
 Dim flag = "1"
-Dim baseFile = "/mnt/shell/emulated/0/Download/other/"
+Dim baseFile = "/sdcard/Download/"
 Dim accountFilePath = baseFile&"account"&flag&".txt"
 Dim clickAddInfoFilePath = baseFile&"clickAdd"&DateTime.Format("%Y-%m-%d")&".txt"
 Dim errorAccountFilePath = baseFile&"errorAccount"&DateTime.Format("%Y-%m-%d")&".txt"
+Dim yzmFilePath = baseFile&"yzm"&DateTime.Format("%Y-%m-%d")&".txt"
 Dim accountArray = File.ReadLines(accountFilePath)
-Dim mbzq = "-11|1|2B2B2B,-22|1|1A1A1A,-36|8|1A1A1A,-28|13|1A1A1A,-21|20|1A1A1A,-37|18|1A1A1A,26|10|F3FCFF"
+Dim mbzq = "-22|1|1A1A1A,-36|8|1A1A1A,-28|13|1A1A1A,-21|20|1A1A1A,-37|18|1A1A1A,26|10|F3FCFF"
 Dim wzry = "44|9|1A1A1A,85|15|1A1A1A,121|17|1A1A1A,150|6|1A1A1A,155|11|1A1A1A,181|10|F3FCFF"
 Dim mnxzx = "-10|9|1A1A1A,-10|13|1A1A1A,9|13|1A1A1A,0|20|1A1A1A,-18|16|1A1A1A,-35|6|1A1A1A,-26|1|1A1A1A,104|10|F3FCFF"
 Dim qemh =  "-6|14|1A1A1A,-3|20|1A1A1A,9|20|1A1A1A,18|12|1A1A1A,27|6|1A1A1A,35|15|1A1A1A,105|10|F3FCFF"
 Dim ttzx = "40|19|1A1A1A,22|9|1A1A1A,16|3|1A1A1A,23|17|1A1A1A,16|15|1A1A1A,102|10|F3FCFF"
-Dim bgrdtt = "24|12|1A1A1A,51|14|1A1A1A,77|18|1A1A1A,54|6|272727,105|11|1A1A1A,135|10|F3FCFF"
+Dim bgrdtt = "2|8|1A1A1A,55|14|1A1A1A,77|12|1A1A1A,82|3|1A1A1A,135|10|F3FCFF"
 Dim sns = "26|16|1A1A1A,-4|17|1A1A1A,4|11|1A1A1A,-9|14|1A1A1A,54|9|1A1A1A,60|7|1A1A1A,80|10|F3FCFF"
 Dim sxzn = "31|16|1A1A1A,34|19|1A1A1A,64|9|1A1A1A,79|8|1A1A1A,86|19|1A1A1A,115|9|F3FCFF"
 Dim mnazn = "23|6|1A1A1A,27|19|1A1A1A,74|13|1A1A1A,-24|14|1A1A1A,106|10|F3FCFF"
@@ -38,7 +39,9 @@ Dim qwkkk = "47|13|1A1A1A,81|19|1A1A1A,82|3|1A1A1A,106|6|1A1A1A,104|19|1A1A1A,13
 Dim wzryswz = "67|20|1A1A1A,26|16|1A1A1A,101|3|1A1A1A,101|19|1A1A1A,125|5|1A1A1A,156|10|F3FCFF"
 
 Dim attNameArray = Array()
-attNameArray(0)=Array("趣闻看看看",qwkkk,1)
+attNameArray(0) = Array("随心之旅", sxzn,4) 
+attNameArray(1)=Array("曼巴足球",mbzq,6)
+
 /*attNameArray(1)=Array("王者荣耀钻石解说",wzry,4)
 attNameArray(2)=Array("企鹅漫画",qemh,4)
 attNameArray(3)=Array("王者荣耀上王者",wzryswz,4)
@@ -57,13 +60,10 @@ Dim sehMoveY = 57
 
 Dim currentAccount
 
-
 a
 
 
 Sub a()
- //openApp
-
  clickPosition minePosX, minePosY, 2000
 
  If not(fingYanz(114, 401, 279, 440, "C0C0C0", "50|10|C0C0C0, 60|10|C0C0C0")) Then
@@ -79,17 +79,15 @@ Sub a()
  For Each account In accountArray
  	currentAccount = account
  	accountInfo = Split(account, "|")
-  	Call info("登录用户" & accountInfo(0) & " " & accountInfo(1))
-  	Sys.ClearAppCache "com.tencent.reading"
+  	Call info(accountInfo(0) & " " & accountInfo(1))
+
   	If login(accountInfo(0), accountInfo(1), 120, 1000, 10) Then
 
    		Delay 7000
-   		//Call info("log ok")
-   		//logOut
    		accountAllOperate
   	Else
    		Call info("log error")
-   		Call File.Append(errorAccountFilePath , GetNetworkTime() & "用户[" & currentAccount & "]登录异常\n")
+   		Call File.Append(errorAccountFilePath , DateTime.Format("%Y-%m-%d %H:%M:%S") & "用户[" & currentAccount & "]登录异常\n")
    		back
    		Delay 2000
    	End If
@@ -153,7 +151,7 @@ Function oneAccount(loopCnt, swiCnt, clickX, clickY, clickStoreArray, addClickMa
   		If waitPageLodingOneColor(105, 348, 172, 381, "5771F9", 100, 1000) Then
   			Delay 2000
    			For swiCnt
-   				Call info("登录用户"&currentAccount&" 点击广告数"&addClick&" 最大点击量:"&addClickMaxCount&" ip: "&Device.GetIp())
+   				Call info(currentAccount&" ("&addClick&"  "&addClickMaxCount)
   				If ifNoResponse() Then
   					Goto noResponseTag
   				Else
@@ -180,49 +178,45 @@ End Function
 Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, addClick)
  Call clickPosition(fristPosX, firstPosY, 2000)
  If waitPageLoding(194, 559, 513, 774, "E0E0DF", "-22|32|E0E0DF,37|35|E0E0DF,-40|46|E0E0DF", 100, 1000) Then
- 	Delay 5000
+ 	Delay getReadTime() * 1000
   	swipeDown
   	Delay 1500
   	Dim addIntX, addIntY
   	FindMultiColor 2, 1110, 169, 1180, "C3773A", "0|2|C3773A,0|1|C3773A", 0, 1, addIntX, addIntY
   	If addIntY > 0 Then
   		If UBOUND(clickStoreArray) < 0 Then
-  			//Call info("first add")
     		addClick = addClick + 1
     		getStoreColorLocal (addIntX,addIntY,clickStoreArray)
-    		Call clickPosition(addIntX, addIntY, 7000)
-    		swipeDown
+    		Call clickPosition(addIntX, addIntY, getReadTime() * 1000)
+    		swipeDownWithParm(getReadTime())
     		Delay 1000
 
     		Call clickPosition(26, 76, 1000)
     		back
-    		//Call backNewHomePage()
-    		//back
     		Goto overFindAdd
   		Else
   			For Each clickStore In clickStoreArray
   				Dim storeIntX, storeIntY
   				FindMultiColor 2, 1110, 169, 1180, "C3773A", clickStore, 0, 1, storeIntX, storeIntY
   				If storeIntX>0 Then
-  					Call info("same Shops"&"current clickStore:"&clickStore&" "&storeIntX&" "&storeIntY)
+  					Call info("same")
   					back
   					Goto overFindAdd
   				End If
   			Next
   		End If
 
-    	Call info("add")
     	addClick = addClick + 1
     	getStoreColorLocal (addIntX,addIntY,clickStoreArray)
-    	Call clickPosition(addIntX, addIntY, 7000)
-    	swipeDown
+    	Call clickPosition(addIntX, addIntY, getReadTime() * 1000)
+    	swipeDownWithParm(getReadTime())
         Delay 1000
 
     	Call clickPosition(26, 76, 1000)
     	back
     	//back
   	Else
-  		Call info("no add")
+
    		back
   	End If
 
@@ -236,6 +230,12 @@ End Function
 
 Sub swipeDown()
  For 100
+  KeyPress "PageDown"
+ Next
+End Sub
+
+Sub swipeDownWithParm(n)
+ For n
   KeyPress "PageDown"
  Next
 End Sub
@@ -280,10 +280,16 @@ Function login(user, pass, loopCount, waitTime, afterYZLoopCount)
 
  Dim i=0
  Dim noYZFlage = 2
+ Dim writeYz = 1
  While i < loopCount
  	If fingYanz(20, 57, 93, 95, "333333", "-36|11|333333,-40|1|333333,6|18|333333,-6|16|333333") Then
 
- 		If fingYanz(121, 478, 273, 526, "2042E9", "50|10|2042E9, 60|10|2042E9") Then
+ 		If fingYanz(121, 478, 273, 526, "2042E9", "50|10|2042E9, 60|10|2042E9") Then 
+ 			
+ 			If writeYz = 1 Then 
+ 				Call File.Append(yzmFilePath, user&" "&pass&"\n")
+ 			End If
+ 			writeYz = 2
  			noYZFlage = 0
      		PlaySound "/system/media/audio/alarms/Alarm_Beep_03.ogg"
      	ElseIf noYZFlage = 0 Then
@@ -493,3 +499,12 @@ Sub cleanCach()
 	End If
 	
 End Sub
+
+
+Function getReadTime
+	Dim MyValue
+	Randomize  
+	MyValue = Int(((12-5+1) * Rnd()) + 5)   
+	getReadTime = MyValue
+
+End Function
