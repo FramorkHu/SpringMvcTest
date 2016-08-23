@@ -39,17 +39,15 @@ Dim qwkkk = "47|13|1A1A1A,81|19|1A1A1A,82|3|1A1A1A,106|6|1A1A1A,104|19|1A1A1A,13
 Dim wzryswz = "67|20|1A1A1A,26|16|1A1A1A,101|3|1A1A1A,101|19|1A1A1A,125|5|1A1A1A,156|10|F3FCFF"
 
 Dim attNameArray = Array()
-attNameArray(0) = Array("随心之旅", sxzn,4) 
-attNameArray(1)=Array("曼巴足球",mbzq,6)
-
-/*attNameArray(1)=Array("王者荣耀钻石解说",wzry,4)
-attNameArray(2)=Array("企鹅漫画",qemh,4)
-attNameArray(3)=Array("王者荣耀上王者",wzryswz,4)
-attNameArray(4)=Array("体坛咨讯",ttzx,4)
-attNameArray(5)=Array("美女爱渣男",mnazn,4)
-attNameArray(6)=Array("八卦热点头条",bgrdtt,2)
-attNameArray(7) = Array("随心之旅", sxzn,2)
-attNameArray(8)=Array("尚女神",sns,2)*/
+attNameArray(0)=Array("曼巴足球",mbzq,6,"mbzq")
+attNameArray(1)=Array("王者荣耀钻石解说",wzry,6,"wzry")
+attNameArray(2)=Array("企鹅漫画",qemh,6,"qemh")
+attNameArray(3)=Array("王者荣耀上王者",wzryswz,6,"wzryswz")
+attNameArray(4)=Array("体坛咨讯",ttzx,5,"ttzx")
+attNameArray(5)=Array("美女爱渣男",mnazn,5,"mnazn")
+attNameArray(6)=Array("八卦热点头条",bgrdtt,5,"bgrdtt")
+attNameArray(7)=Array("随心之旅", sxzn,5,"sxzn")
+attNameArray(8)=Array("尚女神",sns,5,"sns")
 
 Dim begSehAttX = 10
 Dim begSehAttY = 172
@@ -69,7 +67,7 @@ Sub a()
  If not(fingYanz(114, 401, 279, 440, "C0C0C0", "50|10|C0C0C0, 60|10|C0C0C0")) Then
   KeyPress "Back"
   Delay 1000
-  accountAllOperate
+  //accountAllOperate
  Else
   KeyPress "Back"
  End If
@@ -81,13 +79,27 @@ Sub a()
  	accountInfo = Split(account, "|")
   	Call info(accountInfo(0) & " " & accountInfo(1))
 
+	Dim clickAttNameArray = Array()
+	For i = 2 To UBOUND(accountInfo)
+		clickAttNameArray(i-2) = accountInfo(i)
+	Next
+	
+
   	If login(accountInfo(0), accountInfo(1), 120, 1000, 10) Then
 
    		Delay 7000
-   		accountAllOperate
+   		clickPosition attentionX, attentionY, 3000
+   		
+   		If checkLock() Then 
+   			Call info("log error")
+   			Call File.Append(errorAccountFilePath , DateTime.Format("%Y-%m-%d %H:%M:%S") & " " & currentAccount & "\n")
+   		Else
+   			accountAllOperate(clickAttNameArray)
+   		End If
+   		
   	Else
    		Call info("log error")
-   		Call File.Append(errorAccountFilePath , DateTime.Format("%Y-%m-%d %H:%M:%S") & "用户[" & currentAccount & "]登录异常\n")
+   		Call File.Append(errorAccountFilePath , DateTime.Format("%Y-%m-%d %H:%M:%S") & " " & currentAccount & "\n")
    		back
    		Delay 2000
    	End If
@@ -95,9 +107,10 @@ Sub a()
  Next
 End Sub
 
-Sub accountAllOperate()
+Sub accountAllOperate(clickAttNameArray)
 	If beforeOperat() Then
 		For Each attNameInfo In attNameArray
+				
 			checkMyAtt
 			Dim clickStoreArray()
 			Dim intX,intY
@@ -105,16 +118,26 @@ Sub accountAllOperate()
 			Dim attName = attNameInfo(0)
 			Dim attNamePos = attNameInfo(1)
 			Dim addClickMaxCount =attNameInfo(2)
-
-			FindMultiColor begSehAttX, begSehAttY, endSehAttX, endSehAttY, "1A1A1A", attNamePos, 0, 1, intX, intY
-			If intX > 0 Then
-				Call info("找到"&attName)
-				Dim clickCount = oneAccount(2, 10, intX, intY, clickStoreArray, addClickMaxCount)
-				Call File.Append(clickAddInfoFilePath, flag&" "&DateTime.Format("%Y-%m-%d %H:%M:%S") & " 关注号[" & attName & "] 点击量[" & clickCount & "] 点击用户[" & currentAccount & "]\n")
-
-			Else
-				Call info("未找到"&attName)
-			End If
+			Dim attNameExt =attNameInfo(3)
+			
+			For Each clickAttName In clickAttNameArray
+			
+				If attNameExt = clickAttName Then 
+					
+					FindMultiColor begSehAttX, begSehAttY, endSehAttX, endSehAttY, "1A1A1A", attNamePos, 0, 1, intX, intY
+					If intX > 0 Then
+						Call info("找到"&attName)
+						Dim clickCount = oneAccount(2, 10, intX, intY, clickStoreArray, addClickMaxCount)
+						Call File.Append(clickAddInfoFilePath, flag&" "&DateTime.Format("%Y-%m-%d %H:%M:%S") & " 关注号[" & attName & "] 点击量[" & clickCount & "] 点击用户[" & currentAccount & "]\n")
+		
+					Else
+						Call info("未找到"&attName)
+					End If
+					
+				End If
+				
+			Next
+			
 		Next
 		KeyPress "Back"
 		Delay 1000
@@ -151,7 +174,7 @@ Function oneAccount(loopCnt, swiCnt, clickX, clickY, clickStoreArray, addClickMa
   		If waitPageLodingOneColor(105, 348, 172, 381, "5771F9", 100, 1000) Then
   			Delay 2000
    			For swiCnt
-   				Call info(currentAccount&" ("&addClick&"  "&addClickMaxCount)
+   				Call info(currentAccount&" ("&addClick&"  "&addClickMaxCount&")")
   				If ifNoResponse() Then
   					Goto noResponseTag
   				Else
@@ -507,4 +530,17 @@ Function getReadTime
 	MyValue = Int(((12-5+1) * Rnd()) + 5)   
 	getReadTime = MyValue
 
+End Function
+
+Function checkLock()
+	
+	Dim intX,intY
+	
+	FindMultiColor 175, 903, 313, 970, "5771F9", "20|10|5771F9,20|20|5771F9,30|20|5771F9", 0, 1, intX, intY
+	If intX > 0 Then 
+		checkLock = True
+	Else 
+		checkLock = False
+	End If
+		
 End Function
