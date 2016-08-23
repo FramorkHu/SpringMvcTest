@@ -11,6 +11,10 @@ public class ClickDataFileGenerate {
 
     private static final String fileDir = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\data";
     private static final String outDir = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\generateData";
+
+    private static final String accountDataPath = "C:\\Users\\happy\\Downloads\\逍遥安卓下载\\";
+    private static final int accountSize = 5;
+
     private List<Name> gzhNames = new ArrayList<>();
 
     public ClickDataFileGenerate(){
@@ -28,25 +32,73 @@ public class ClickDataFileGenerate {
     }
 
     public static void main(String[] args) throws Exception {
+        List<Integer> datas = new ArrayList<>();
+        datas.add(1);
+        datas.add(2);
+        datas.add(3);
+        datas.add(4);
+        datas.add(5);
 
 
-        new  ClickDataFileGenerate().writeFile();
+        //new  ClickDataFileGenerate().getGenerateFile();
+        //new  ClickDataFileGenerate().splitFile(5);
 
-
+        new  ClickDataFileGenerate().splitFile(datas);
 
     }
 
-    private void writeFile() throws IOException {
+
+    private void getGenerateFile() throws IOException {
+        List<String> generateDataList = doGenerate();
+        writeFile(generateDataList, outDir);
+    }
+
+    public void splitFile(List<Integer> datas) throws IOException {
+
+        for (int data : datas){
+            splitFile(data);
+        }
+    }
+
+    public void splitFile(int data) throws IOException {
+
+        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(accountDataPath+"account"+data+".txt"));
+
+        BufferedWriter bufferedWriter = new BufferedWriter(writer);
+
+        List<String> datas = getFileDatas(outDir);
+
+        for (int i=0; i<accountSize; i++){
+            String accountDatas = datas.remove(0);
+
+            bufferedWriter.write(accountDatas);
+
+            if (i!= (accountSize-1)){
+                bufferedWriter.newLine();
+            }
+
+        }
+        bufferedWriter.close();
+
+
+        writeFile(datas, outDir);
+
+    }
+
+
+
+    private void writeFile(List<String> generateDataList, String outDir) throws IOException {
 
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outDir));
 
         BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
-        List<String> generateDataList = doGenerate();
-
-        for (String generateData : generateDataList){
+        for (int i=0; i< generateDataList.size(); i++){
+            String generateData = generateDataList.get(i);
             bufferedWriter.write(generateData);
-            bufferedWriter.newLine();
+            if (i!= (generateDataList.size()-1)){
+                bufferedWriter.newLine();
+            }
         }
 
         bufferedWriter.close();
@@ -60,7 +112,7 @@ public class ClickDataFileGenerate {
 
         List<String> result = new ArrayList<>();
 
-        List<String> accountDataList = getFileDatas();
+        List<String> accountDataList = getFileDatas(fileDir);
 
         Collections.shuffle(accountDataList);
 
@@ -92,7 +144,7 @@ public class ClickDataFileGenerate {
     }
 
 
-    private List<String > getFileDatas() throws IOException {
+    private List<String > getFileDatas(String fileDir) throws IOException {
 
         List<String> result= new ArrayList<>();
 
