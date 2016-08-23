@@ -11,19 +11,20 @@ public class ClickDataFileGenerate {
 
     private static final String fileDir = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\data";
     private static final String outDir = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\generateData";
-    private List<String> gzhNames = new ArrayList<>();
+    private List<Name> gzhNames = new ArrayList<>();
 
     public ClickDataFileGenerate(){
 
-        gzhNames.add("随心之旅");
-        gzhNames.add("曼巴足球");
-        gzhNames.add("王者荣耀钻石解说");
-        gzhNames.add("企鹅漫画");
-       /* gzhNames.add("王者荣耀上王者");
-        gzhNames.add("体坛咨讯");
-        gzhNames.add("美女爱渣男");
-        gzhNames.add("八卦热点头条");
-        gzhNames.add("尚女神");*/
+        gzhNames.add(new Name("随心之旅", "sxzn"));
+        gzhNames.add(new Name("曼巴足球","mbzq"));
+        gzhNames.add(new Name("王者荣耀钻石解说","wzry"));
+        gzhNames.add(new Name("企鹅漫画","qemh"));
+        /*gzhNames.add(new Name("王者荣耀上王者","wzryswz"));
+        gzhNames.add(new Name("体坛咨讯","ttzx"));
+        gzhNames.add(new Name("美女爱渣男","mnazn"));
+        gzhNames.add(new Name("八卦热点头条","bgrdtt"));
+        gzhNames.add(new Name("尚女神","sns"));*/
+
     }
 
     public static void main(String[] args) throws Exception {
@@ -54,6 +55,9 @@ public class ClickDataFileGenerate {
 
     private List<String> doGenerate() throws IOException {
 
+
+        Map<String, List<String>> datas = new HashMap<>();
+
         List<String> result = new ArrayList<>();
 
         List<String> accountDataList = getFileDatas();
@@ -65,13 +69,25 @@ public class ClickDataFileGenerate {
             Random random = new Random();
             int n = random.nextInt(gzhNames.size());
 
-            String gzh = gzhNames.get(n);
-            result.add(accountData+"|"+gzh);
+            Name gzh = gzhNames.get(n);
+            result.add(accountData+"|"+gzh.getExt());
+
+
+            List<String> array = datas.get(gzh.getName());
+            if (array == null){
+                array = new ArrayList<>();
+            }
+            array.add(accountData);
+            datas.put(gzh.getName(), array);
 
         }
 
         Collections.shuffle(result);
 
+        for (Map.Entry<String, List<String>> entry: datas.entrySet()){
+
+            System.out.println(entry.getKey()+" "+entry.getValue().size());
+        }
         return result;
     }
 
@@ -94,5 +110,36 @@ public class ClickDataFileGenerate {
 
         br.close();
         return result;
+    }
+
+
+}
+
+
+class Name{
+
+
+    public Name(String name, String ext){
+        this.name = name;
+        this.ext = ext;
+    }
+    private String name;
+    private String ext;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getExt() {
+        return ext;
+    }
+
+    public void setExt(String ext) {
+        this.ext = ext;
     }
 }
