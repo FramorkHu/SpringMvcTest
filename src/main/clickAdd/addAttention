@@ -1,0 +1,256 @@
+Dim screenX,screenY
+screenX = GetScreenX()
+screenY = GetScreenY()
+Dim ttkbX,ttkbY,attentionX, attentionY, myAttentionX,myAttentionY,fristPosX, firstPosY,addX,addY,minePosX,minePosY,mineSetPosX,mineSetPosY,logOutX,logOutY
+ttkbX = 77
+ttkbY = 464
+attentionX = 270
+attentionY = 78
+myAttentionX = 307
+myAttentionY = 147
+fristPosX = 379
+firstPosY = 511
+addX = 378
+addY = 1113
+minePosX = 33
+minePosY = 78
+mineSetPosX = 427
+mineSetPosY = 1170
+Dim waitingLoopCount, oneWaitTime
+waitingLoopCount = 100
+oneWaitTime = 1000
+Dim flag = 1
+Dim baseFile = "/sdcard/Download/"
+Dim accountFilePath = baseFile&"account"&flag&".txt"
+Dim accountArray = File.ReadLines(accountFilePath)
+
+Dim addAttX = 682,addAttY = 78
+Dim attNameArray = Array()
+attNameArray(0) = Array("随心之旅", 651, 872)
+attNameArray(1) = Array("体坛咨讯", 657,889)
+attNameArray(2) = Array("八卦热点头条", 653,889)
+attNameArray(3) = Array("企鹅漫画", 652,732)
+attNameArray(4) = Array("曼巴足球", 652,891)
+attNameArray(5) = Array("美女爱渣男", 653,590)
+attNameArray(6) = Array("尚女神", 289, 886)
+attNameArray(7) = Array("王者荣耀", 550, 1008)
+
+Dim currentAccount
+a
+
+
+Sub a()
+
+ clickPosition minePosX, minePosY, 2000
+
+ If not(fingYanz(114, 401, 279, 440, "C0C0C0", "50|10|C0C0C0, 60|10|C0C0C0")) Then
+  KeyPress "Back"
+  Delay 1000
+  accountAllOperate ()
+ Else
+  KeyPress "Back"
+ End If
+
+ Dim accountInfo
+
+ For Each account In accountArray
+ 	currentAccount = account
+ 	accountInfo = Split(account, "|")
+  	Call info("登录用户"&accountInfo(0)&" "&accountInfo(1))
+  	If login(accountInfo(0), accountInfo(1)) Then
+   		accountAllOperate ()
+  	Else
+   		Dim i=0
+   		While i < waitingLoopCount
+   			If fingYanz(121, 478, 273, 526, "2042E9", "50|10|2042E9, 60|10|2042E9") Then
+     			PlaySound "/system/media/audio/alarms/Alarm_Beep_03.ogg"
+     			i = i + 1
+     			Delay oneWaitTime
+    		Else
+     			Delay 10000
+     			Call info("登录成功")
+     			accountAllOperate ()
+     			Exit While
+    		End If
+   	Wend
+
+   	If fingYanz(121, 478, 273, 526, "2042E9", "50|10|2042E9, 60|10|2042E9") Then
+   			Call clickPosition(minePosX, minePosY, 5000)
+   	End If
+
+   End If
+
+ Next
+End Sub
+
+
+Sub accountAllOperate()
+	Call clickPosition(addAttX, addAttY, 3000)
+	Call clickPosition(addAttX, addAttY, 500)
+	Call clickPosition(211, 76, 500)
+
+	For Each attNameData In attNameArray
+
+		Dim attName = attNameData(0)
+		Dim attClickX = attNameData(1)
+		Dim attClickY = attNameData(2)
+
+		InputText attName
+		Delay 1000
+		Call clickPosition(addAttX, addAttY, 500)
+
+		If waitPageLodingOneColor(566, 132, 697, 617, "3856EB", 30, 1000) Then
+
+			Delay 2000
+
+			clickPosition attClickX, attClickY, 3000
+
+			If attName = "王者荣耀" Then
+				If waitPageLodingOneColor(609, 127, 707, 268, "3856EB", 30, 1000) Then
+					Delay 2000
+					clickPosition 663, 347, 1000
+					clickPosition 664, 463, 1000
+				End If
+
+				back
+				Delay 2000
+			End If
+
+			If attName = "尚女神" Then
+				If waitPageLodingOneColor(105, 348, 172, 381, "5771F9", 100, 1000) Then
+					clickPosition 591,66, 1000
+				End If
+				back
+				Delay 2000
+			End If
+
+
+			clickPosition 593, 65, 3000
+
+		End If
+
+
+	Next
+
+	backNewHomePage
+	Delay 1000
+	logOut
+
+End Sub
+
+Sub openApp()
+ RunApp "com.tencent.reading"
+ Delay 7000
+End Sub
+
+
+
+Sub clickPosition(x, y, delayTime)
+ Tap x, y
+ Delay delayTime
+End Sub
+
+Sub backNewHomePage()
+ Call back()
+ Call back()
+End Sub
+
+Sub logOut()
+ Call clickPosition(minePosX, minePosY, 2000)
+ Call clickPosition(mineSetPosX, mineSetPosY, 2000)
+ Dim logOutX,logOutY
+ FindMultiColor 130,733,680,1000,"0042EB","0|4|0042EB,0|6|0042EB,0|8|0042EB,0|10|0042EB",0,1,logOutX,logOutY
+ Call clickPosition(logOutX, logOutY, 2000)
+ KeyPress "Enter"
+ Delay 100
+ KeyPress "Enter"
+End Sub
+
+
+Function login(user, pass)
+ Call clickPosition(minePosX, minePosY, 2500)
+ Call clickPosition(162, 200, 500)
+ InputText user
+ KeyPress "Tab"
+ Delay 200
+ InputText pass
+ Delay 1000
+ KeyPress "Enter"
+ Delay 100
+ KeyPress "Enter"
+ Delay 20000
+ If fingYanz(121, 478, 273, 526, "2042E9", "50|10|2042E9, 60|10|2042E9") Then
+  login = False
+ Else
+  login = True
+ End If
+End Function
+
+Function waitPageLodingOneColor(x1,y1,x2,y2,color,loopCount, waitTime)
+ 	Dim i=0
+ 	While i < loopCount
+  		If fingOneColor(x1, y1, x2, y2, color) Then
+  			waitPageLodingOneColor = True
+   			Exit While
+  		Else
+  			Delay waitTime
+   			i = i + 1
+  		End If
+ 	Wend
+ 	If fingOneColor(x1, y1, x2, y2, color) Then
+ 		waitPageLodingOneColor = True
+ 	Else
+  		waitPageLodingOneColor = False
+ 	End If
+
+End Function
+
+Function fingOneColor(x1,y1,x2,y2, color)
+ Dim intX, intY
+ FindColor x1, y1, x2, y2, color, 0, 1, intX, intY
+ If intX > -1 Then
+  fingOneColor = True
+ Else
+  fingOneColor = False
+ End If
+End Function
+
+Function waitPageLoding(x1,y1,x2,y2,color,range,loopCount, waitTime)
+ Dim i=0
+ While i < loopCount
+  If fingYanz(x1, y1, x2, y2, color, range) Then
+   Delay waitTime
+   i = i + 1
+  Else
+   waitPageLoding = True
+   Exit While
+  End If
+ Wend
+ If fingYanz(x1,y1,x2,y2,color,range) Then
+  waitPageLoding = False
+ Else
+  waitPageLoding = True
+ End If
+
+End Function
+Function fingYanz(x1,y1,x2,y2, color, colorRang)
+ Dim intX, intY
+ FindMultiColor x1, y1, x2, y2, color, colorRang, 0, 1, intX, intY
+ //Call info(x1&" "&y1&" "&x2&" "&y2&" "&color&" "&colorRang)
+ If intX > -1 Then
+  fingYanz = True
+ Else
+  fingYanz = False
+ End If
+End Function
+
+Sub back()
+ KeyPress "Back"
+ Delay 500
+End Sub
+
+Sub info(内容)
+    TracePrint 内容
+    ShowMessage 内容
+    Delay 1000
+End Sub
