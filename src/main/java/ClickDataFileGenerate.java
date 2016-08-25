@@ -19,10 +19,11 @@ public class ClickDataFileGenerate {
 
     public ClickDataFileGenerate(){
 
-        gzhNames.add(new Name("随心之旅", "sxzn"));
+        //gzhNames.add(new Name("随心之旅", "sxzn"));
         gzhNames.add(new Name("曼巴足球","mbzq"));
-        gzhNames.add(new Name("王者荣耀钻石解说","wzry"));
+        //gzhNames.add(new Name("王者荣耀钻石解说","wzry"));
         gzhNames.add(new Name("企鹅漫画","qemh"));
+        gzhNames.add(new Name("王者荣耀钻石解说|美女爱渣男","wzry|mnazn"));
         /*gzhNames.add(new Name("王者荣耀上王者","wzryswz"));
         gzhNames.add(new Name("体坛咨讯","ttzx"));
         gzhNames.add(new Name("美女爱渣男","mnazn"));
@@ -33,17 +34,16 @@ public class ClickDataFileGenerate {
 
     public static void main(String[] args) throws Exception {
         List<Integer> datas = new ArrayList<>();
-        datas.add(1);
+        /*datas.add(1);*/
         datas.add(2);
         datas.add(3);
-        datas.add(4);
+        //datas.add(4);
         datas.add(5);
 
 
         //new  ClickDataFileGenerate().getGenerateFile();
-        //new  ClickDataFileGenerate().splitFile(5);
-
-        new  ClickDataFileGenerate().splitFile(datas);
+        new  ClickDataFileGenerate().splitFile(1);
+        //new  ClickDataFileGenerate().splitFile(datas);
 
     }
 
