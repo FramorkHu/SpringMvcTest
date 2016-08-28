@@ -127,7 +127,7 @@ Sub accountAllOperate(clickAttNameArray)
 					FindMultiColor begSehAttX, begSehAttY, endSehAttX, endSehAttY, "1A1A1A", attNamePos, 0, 1, intX, intY
 					If intX > 0 Then
 						Call info("找到"&attName)
-						Dim clickCount = oneAccount(2, 10, intX, intY, clickStoreArray, addClickMaxCount)
+						Dim clickCount = oneAccount(2, 10, intX, intY, clickStoreArray, addClickMaxCount,attName)
 						Call File.Append(clickAddInfoFilePath, flag&" "&DateTime.Format("%Y-%m-%d %H:%M:%S") & " 关注号[" & attName & "] 点击量[" & clickCount & "] 点击用户[" & currentAccount & "]\n")
 		
 					Else
@@ -165,7 +165,7 @@ Function beforeOperat()
 End Function
 
 
-Function oneAccount(loopCnt, swiCnt, clickX, clickY, clickStoreArray, addClickMaxCount)
+Function oneAccount(loopCnt, swiCnt, clickX, clickY, clickStoreArray, addClickMaxCount,attName)
 	Dim addClick = 0
 	For loopCnt
 		Delay 2000
@@ -174,7 +174,7 @@ Function oneAccount(loopCnt, swiCnt, clickX, clickY, clickStoreArray, addClickMa
   		If waitPageLodingOneColor(105, 348, 172, 381, "5771F9", 100, 1000) Then
   			Delay 2000
    			For swiCnt
-   				Call info(currentAccount&" ("&addClick&"  "&addClickMaxCount&")")
+   				Call info(currentAccount&" ("&addClick&"  "&addClickMaxCount&")"&attName)
   				If ifNoResponse() Then
   					Goto noResponseTag
   				Else
