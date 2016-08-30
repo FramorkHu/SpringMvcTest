@@ -19,8 +19,18 @@ mineSetPosY = 1170
 Dim waitingLoopCount, oneWaitTime
 waitingLoopCount = 100
 oneWaitTime = 1000
-Dim flag = "1"
-Dim baseFile = "/sdcard/Download/"
+readConfigInfo 
+Dim flag
+Dim mbzqCount
+Dim wzryCount
+Dim qemhCount
+Dim wzryswzCount
+Dim ttzxCount
+Dim mnaznCount
+Dim bgrdttCount
+Dim sxznCount
+Dim snsCount
+Dim baseFile
 Dim accountFilePath = baseFile&"account"&flag&".txt"
 Dim clickAddInfoFilePath = baseFile&"clickAdd"&DateTime.Format("%Y-%m-%d")&".txt"
 Dim errorAccountFilePath = baseFile&"errorAccount"&DateTime.Format("%Y-%m-%d")&".txt"
@@ -39,15 +49,15 @@ Dim qwkkk = "47|13|1A1A1A,81|19|1A1A1A,82|3|1A1A1A,106|6|1A1A1A,104|19|1A1A1A,13
 Dim wzryswz = "67|20|1A1A1A,26|16|1A1A1A,101|3|1A1A1A,101|19|1A1A1A,125|5|1A1A1A,156|10|F3FCFF"
 
 Dim attNameArray = Array()
-attNameArray(0)=Array("曼巴足球",mbzq,6,"mbzq")
-attNameArray(1)=Array("王者荣耀钻石解说",wzry,6,"wzry")
-attNameArray(2)=Array("企鹅漫画",qemh,6,"qemh")
-attNameArray(3)=Array("王者荣耀上王者",wzryswz,6,"wzryswz")
-attNameArray(4)=Array("体坛咨讯",ttzx,5,"ttzx")
-attNameArray(5)=Array("美女爱渣男",mnazn,5,"mnazn")
-attNameArray(6)=Array("八卦热点头条",bgrdtt,5,"bgrdtt")
-attNameArray(7)=Array("随心之旅", sxzn,5,"sxzn")
-attNameArray(8)=Array("尚女神",sns,5,"sns")
+attNameArray(0)=Array("曼巴足球",mbzq,mbzqCount,"mbzq")
+attNameArray(1)=Array("王者荣耀钻石解说",wzry,wzryCount,"wzry")
+attNameArray(2)=Array("企鹅漫画",qemh,qemhCount,"qemh")
+attNameArray(3)=Array("王者荣耀上王者",wzryswz,wzryswzCount,"wzryswz")
+attNameArray(4)=Array("体坛咨讯",ttzx,ttzxCount,"ttzx")
+attNameArray(5)=Array("美女爱渣男",mnazn,mnaznCount,"mnazn")
+attNameArray(6)=Array("八卦热点头条",bgrdtt,bgrdttCount,"bgrdtt")
+attNameArray(7)=Array("随心之旅", sxzn,sxznCount,"sxzn")
+attNameArray(8)=Array("尚女神",sns,snsCount,"sns")
 
 Dim begSehAttX = 10
 Dim begSehAttY = 172
@@ -211,7 +221,7 @@ Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, 
     		addClick = addClick + 1
     		getStoreColorLocal (addIntX,addIntY,clickStoreArray)
     		Call clickPosition(addIntX, addIntY, getReadTime() * 1000)
-    		swipeDownWithParm(getReadTime())
+    		//swipeDownWithParm(getReadTime())
     		Delay 1000
 
     		Call clickPosition(26, 76, 1000)
@@ -232,7 +242,7 @@ Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, 
     	addClick = addClick + 1
     	getStoreColorLocal (addIntX,addIntY,clickStoreArray)
     	Call clickPosition(addIntX, addIntY, getReadTime() * 1000)
-    	swipeDownWithParm(getReadTime())
+    	//swipeDownWithParm(getReadTime())
         Delay 1000
 
     	Call clickPosition(26, 76, 1000)
@@ -544,3 +554,21 @@ Function checkLock()
 	End If
 		
 End Function
+
+
+Sub readConfigInfo()
+	
+	 
+	baseFile = ReadUIConfig("baseFilePathData", "/sdcard/Download/")
+	flag = ReadUIConfig("number",1)
+	mbzqCount = ReadUIConfig("mbzqCount",5)
+    wzryCount = ReadUIConfig("wzryCount",5)
+    qemhCount = ReadUIConfig("qemhCount",5)
+    wzryswzCount = ReadUIConfig("wzryswzCount",5)
+    ttzxCount = ReadUIConfig("ttzxCount",5)
+    mnaznCount = ReadUIConfig("mnaznCount",5)
+    bgrdttCount = ReadUIConfig("bgrdttCount",3)
+    sxznCount = ReadUIConfig("sxznCount",3)
+    snsCount = ReadUIConfig("snsCount", 3)
+    
+End Sub
