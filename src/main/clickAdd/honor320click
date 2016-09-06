@@ -28,8 +28,9 @@ Dim mnaznCount
 Dim bgrdttCount
 Dim sxznCount
 Dim snsCount
-Dim baseFile
+Dim ssnhCount
 
+Dim baseFile
 Dim accountFilePath = baseFile&"account"&flag&".txt"
 Dim clickAddInfoFilePath = baseFile&"clickAdd/clickAdd"&DateTime.Format("%Y-%m-%d")&".txt"
 Dim errorAccountFilePath = baseFile&"errorAccount/errorAccount"&DateTime.Format("%Y-%m-%d")&".txt"
@@ -45,6 +46,7 @@ Dim sxzn = "-3|6|1B1B1B,-58|15|1A1A1A,-75|14|1B1B1B,35|18|1A1A1A,72|13|F3FCFF"
 Dim mnazn = "14|6|1A1A1A,57|14|1B1B1B,89|3|1A1A1A,95|13|1A1A1A,160|13|F3FCFF"
 Dim qwkkk = "76|9|1A1A1A,114|18|1A1A1A,35|17|1A1A1A,74|21|1A1A1A,142|13|F3FCFF"
 Dim wzryswz = "0|8|1A1A1A,130|14|1A1A1A,160|3|1A1A1A,156|20|1A1A1A,200|14|F3FCFF"
+Dim ssnh = "61|6|1B1B1B,92|7|1A1A1A,90|11|1A1A1A,90|25|1A1A1A,130|13|F3FCFF"
 
 Dim attNameArray = Array()
 attNameArray(0)=Array("曼巴足球",mbzq,mbzqCount,"mbzq",1)
@@ -55,7 +57,8 @@ attNameArray(4)=Array("体坛咨讯",ttzx,ttzxCount,"ttzx",1)
 attNameArray(5)=Array("美女爱渣男",mnazn,mnaznCount,"mnazn",1)
 attNameArray(6)=Array("八卦热点头条",bgrdtt,bgrdttCount,"bgrdtt",1)
 attNameArray(7)=Array("随心之旅", sxzn,sxznCount,"sxzn",0.9)
-attNameArray(8)=Array("尚女神",sns,snsCount,"sns",1)
+attNameArray(8) = Array("尚女神", sns, snsCount, "sns", 1)
+attNameArray(9)=Array("瘦身女皇",ssnh,ssnhCount,"ssnh",1)
 
 Dim begSehAttX = 7
 Dim begSehAttY = 211
@@ -63,9 +66,9 @@ Dim endSehAttX = 709
 Dim endSehAttY = 990
 
 Dim currentAccount
-
+		
 a
-
+		
 Sub a()
  KeepScreen True
 
@@ -89,17 +92,17 @@ Sub a()
 	For i = 2 To UBOUND(accountInfo)
 		clickAttNameArray(i-2) = accountInfo(i)
 	Next
-
+	  	
   	If login(accountInfo(0), accountInfo(1), 120, 1000, 10) Then
 
    		Delay 15000
    		clickPosition attentionX, attentionY, 3000
-
-   		If checkLock() Then
+   		
+   		If checkLock() Then 
    			Call info("log error")
    			Call File.Append(errorAccountFilePath , DateTime.Format("%Y-%m-%d %H:%M:%S") & " " & currentAccount & "\n")
    		Else
-   			accountAllOperate (clickAttNameArray)
+   			accountAllOperate (clickAttNameArray)   			
    		End If
   	Else
    		Call info("log error")
@@ -114,7 +117,7 @@ End Sub
 Sub accountAllOperate(clickAttNameArray)
 	If beforeOperat() Then
 		For Each attNameInfo In attNameArray
-
+			
 			checkMyAtt
 			Dim clickStoreArray()
 			Dim intX,intY
@@ -124,25 +127,25 @@ Sub accountAllOperate(clickAttNameArray)
 			Dim addClickMaxCount =attNameInfo(2)
 			Dim attNameExt =attNameInfo(3)
 			Dim weight = attNameInfo(4)
-
+			
 			For Each clickAttName In clickAttNameArray
-
-				If Trim(attNameExt) = Trim(clickAttName) Then
-
+			
+				If Trim(attNameExt) = Trim(clickAttName) Then 
+					
 					FindMultiColor begSehAttX, begSehAttY, endSehAttX, endSehAttY, "1A1A1A", attNamePos, 0, weight, intX, intY
 					If intX > 0 Then
 						Call info("找到"&attName)
 						Dim clickCount = oneAccount(2, 10, intX, intY, clickStoreArray, addClickMaxCount,attName)
 						Call File.Append(clickAddInfoFilePath, flag&" "&DateTime.Format("%Y-%m-%d %H:%M:%S") & " 关注号[" & attName & "] 点击量[" & clickCount & "] 点击用户[" & currentAccount & "]\n")
-
+		
 					Else
 						Call info("未找到"&attName)
 					End If
-
+					
 				End If
-
+				
 			Next
-
+			
 		Next
 		KeyPress "Back"
 		Delay 1000
@@ -212,13 +215,13 @@ Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, 
   	Dim addIntX, addIntY
   	FindMultiColor 2, 1079, 169, 1190, "C3773A","0|2|C3773A,0|5|C3773A", 0, 1, addIntX, addIntY
   	If addIntY > 0 Then
-  		If UBOUND(clickStoreArray) < 0 Then
+  		If UBOUND(clickStoreArray) < 0 Then  			
     		addClick = addClick + 1
     		getStoreColorLocal (addIntX,addIntY,clickStoreArray)
-    		Call clickPosition(addIntX, addIntY, getReadTime() * 1000)
+    		Call clickPosition(addIntX, addIntY, getReadTime() * 1000)	
 			Delay 1000
     		Call clickPosition(31,87, 1000)
-    		back
+    		back    	
     		Goto overFindAdd
   		Else
   			For Each clickStore In clickStoreArray
@@ -231,16 +234,16 @@ Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, 
   				End If
   			Next
   		End If
-
+    	
     	addClick = addClick + 1
     	getStoreColorLocal (addIntX,addIntY,clickStoreArray)
-    	Call clickPosition(addIntX, addIntY, getReadTime() * 1000)
+    	Call clickPosition(addIntX, addIntY, getReadTime() * 1000)	
         Delay 1000
 
     	Call clickPosition(31,87, 1000)
     	back
-
-  	Else
+    
+  	Else  		
    		back
   	End If
 
@@ -274,29 +277,29 @@ back
 Delay 2000
 back
  Call clickPosition(minePosX, minePosY, 2000)
- Call clickPosition(mineSetPosX, mineSetPosY, 2000)
+ Call clickPosition(mineSetPosX, mineSetPosY, 2000) 
  cleanCach
  Call clickPosition(345, 1148, 2000)
  KeyPress "Enter"
  Delay 100
  KeyPress "Enter"
-
+ 
  Dim i=0
  While i < 100
-  		If fingOneColor(93, 511, 292, 584, "E5B533") Then
+  		If fingOneColor(93, 511, 292, 584, "E5B533") Then 
   			Delay 1000
-   			i = i + 1
+   			i = i + 1  			
   		Else
    			Exit While
   		End If
-  Wend
-
+  Wend 
+ 
 End Sub
 
 
 Function login(user, pass, loopCount, waitTime, afterYZLoopCount)
  Call clickPosition(minePosX, minePosY, 3000)
- Call clickPosition(147, 245, 1000)
+ Call clickPosition(147, 245, 1000) 
  InputText user
  Delay 500
  For 13
@@ -309,9 +312,9 @@ Function login(user, pass, loopCount, waitTime, afterYZLoopCount)
  Delay 1000
  InputText pass
  Delay 2000
-
+ 
  Call clickPosition (361,541,2000)
-
+ 
  Dim i=0
  Dim noYZFlage = 2
  While i < loopCount
@@ -319,7 +322,7 @@ Function login(user, pass, loopCount, waitTime, afterYZLoopCount)
 
  		If fingYanz(21, 570, 298, 667, "2042E9", "50|10|2042E9, 60|10|2042E9") Then
  			noYZFlage = 0
- 			Vibrate 1000
+ 			Vibrate 1000 
      		//PlaySound "/system/media/audio/alarms/Alarm_Beep_03.ogg"
      	ElseIf noYZFlage = 0 Then
      		noYZFlage = 1
@@ -418,7 +421,7 @@ Sub getStoreColorLocal(intX, intY, clickStoreArray)
 		Dim currentColor
 		For Each color In colorArray
 			FindColor startCurrentX, currentY, endCurrentX, 1128, color, 3, 1, colorX, colorY
-			If (colorX > 0) Then
+			If (colorX > 0) Then			 
 				currentColor = color
 				Exit For
 			End If
@@ -488,41 +491,41 @@ End Sub
 
 
 Sub cleanCach()
-
+	
 	Dim intX,intY
 	FindMultiColor 38, 473, 134, 565, "888888","13|19|888888,5|18|888888,6|37|888888", 0, 1, intX, intY
-
-	If intX > 0 Then
+	
+	If intX > 0 Then 
 		Call clickPosition(intX, intY, 2000)
 		Call clickPosition(220,829, 2000)
 	End If
-
+	
 End Sub
 
 Function checkLock()
-
+	
 	Dim intX,intY
-
+	
 	FindMultiColor 118, 980, 319, 1071, "5771F9", "20|10|5771F9,20|20|5771F9,30|20|5771F9", 0, 1, intX, intY
-	If intX > 0 Then
+	If intX > 0 Then 
 		checkLock = True
-	Else
+	Else 
 		checkLock = False
 	End If
-
+		
 End Function
 
 Function getReadTime
 	Dim MyValue
-	Randomize
-	MyValue = Int(((12-5+1) * Rnd()) + 5)
+	Randomize  
+	MyValue = Int(((12-5+1) * Rnd()) + 5)   
 	getReadTime = MyValue
 
 End Function
 
 Sub readConfigInfo()
-
-
+	
+	 
 	baseFile = ReadUIConfig("baseFilePathData", "/sdcard/Download/")
 	flag = ReadUIConfig("number",1)
 	mbzqCount = CInt(ReadUIConfig("mbzqCount",5))
@@ -530,9 +533,10 @@ Sub readConfigInfo()
     qemhCount = CInt(ReadUIConfig("qemhCount",5))
     wzryswzCount = CInt(ReadUIConfig("wzryswzCount",5))
     ttzxCount = CInt(ReadUIConfig("ttzxCount",5))
-    mnaznCount = CInt(ReadUIConfig("mnaznCount",5))
-    bgrdttCount = CInt(ReadUIConfig("bgrdttCount",3))
+    mnaznCount = CInt(ReadUIConfig("mnaznCount", 5))
+    snsCount = CInt(ReadUIConfig("snsCount", 5))
+    bgrdttCount = CInt(ReadUIConfig("bgrdttCount",4))
     sxznCount = CInt(ReadUIConfig("sxznCount",3))
-    snsCount = CInt(ReadUIConfig("snsCount", 3))
-
+    ssnhCount = CInt(ReadUIConfig("ssnhCount", 3))
+    
 End Sub

@@ -16,6 +16,7 @@ minePosX = 33
 minePosY = 78
 mineSetPosX = 427
 mineSetPosY = 1170
+Dim addAttX = 682,addAttY = 78
 Dim waitingLoopCount, oneWaitTime
 waitingLoopCount = 100
 oneWaitTime = 1000
@@ -30,6 +31,8 @@ Dim mnaznCount
 Dim bgrdttCount
 Dim sxznCount
 Dim snsCount
+Dim ssnhCount
+
 Dim baseFile
 Dim accountFilePath = baseFile&"account"&flag&".txt"
 Dim clickAddInfoFilePath = baseFile&"clickAdd"&DateTime.Format("%Y-%m-%d")&".txt"
@@ -47,6 +50,7 @@ Dim sxzn = "31|16|1A1A1A,34|19|1A1A1A,64|9|1A1A1A,79|8|1A1A1A,86|19|1A1A1A,115|9
 Dim mnazn = "23|6|1A1A1A,27|19|1A1A1A,74|13|1A1A1A,-24|14|1A1A1A,106|10|F3FCFF"
 Dim qwkkk = "47|13|1A1A1A,81|19|1A1A1A,82|3|1A1A1A,106|6|1A1A1A,104|19|1A1A1A,132|9|F3FCFF"
 Dim wzryswz = "67|20|1A1A1A,26|16|1A1A1A,101|3|1A1A1A,101|19|1A1A1A,125|5|1A1A1A,156|10|F3FCFF"
+Dim ssnh = "26|5|1A1A1A,53|13|1A1A1A,52|17|1A1A1A,57|20|1A1A1A,80|10|F3FCFF"
 
 Dim attNameArray = Array()
 attNameArray(0)=Array("曼巴足球",mbzq,mbzqCount,"mbzq")
@@ -57,7 +61,8 @@ attNameArray(4)=Array("体坛咨讯",ttzx,ttzxCount,"ttzx")
 attNameArray(5)=Array("美女爱渣男",mnazn,mnaznCount,"mnazn")
 attNameArray(6)=Array("八卦热点头条",bgrdtt,bgrdttCount,"bgrdtt")
 attNameArray(7)=Array("随心之旅", sxzn,sxznCount,"sxzn")
-attNameArray(8)=Array("尚女神",sns,snsCount,"sns")
+attNameArray(8) = Array("尚女神", sns, snsCount, "sns")
+attNameArray(9) = Array("瘦身女皇",ssnh,ssnhCount,"ssnh")
 
 Dim begSehAttX = 10
 Dim begSehAttY = 172
@@ -141,7 +146,17 @@ Sub accountAllOperate(clickAttNameArray)
 						Call File.Append(clickAddInfoFilePath, flag&" "&DateTime.Format("%Y-%m-%d %H:%M:%S") & " 关注号[" & attName & "] 点击量[" & clickCount & "] 点击用户[" & currentAccount & "]\n")
 		
 					Else
-						Call info("未找到"&attName)
+						Call info("未找到" & attName)
+						If (attName = "瘦身女皇") Then 
+							addAttion (attName)
+							beforeOperat 
+							FindMultiColor begSehAttX, begSehAttY, endSehAttX, endSehAttY, "1A1A1A", attNamePos, 0, 1, intX, intY
+							If intX > 0 Then
+								Call info("找到"&attName)
+								Dim clickCount1 = oneAccount(2, 10, intX, intY, clickStoreArray, addClickMaxCount,attName)
+								Call File.Append(clickAddInfoFilePath, flag & " " & DateTime.Format("%Y-%m-%d %H:%M:%S") & " 关注号[" & attName & "] 点击量[" & clickCount1 & "] 点击用户[" & currentAccount & "]\n")
+							End If
+						End If						
 					End If
 					
 				End If
@@ -159,10 +174,7 @@ Sub accountAllOperate(clickAttNameArray)
 
 End Sub
 
-Sub openApp()
- RunApp "com.tencent.reading"
- Delay 7000
-End Sub
+
 
 Function beforeOperat()
  clickPosition attentionX, attentionY, 3000
@@ -219,12 +231,12 @@ Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, 
   	If addIntY > 0 Then
   		If UBOUND(clickStoreArray) < 0 Then
     		addClick = addClick + 1
-    		getStoreColorLocal (addIntX,addIntY,clickStoreArray)
-    		Call clickPosition(addIntX, addIntY, getReadTime() * 1000)
-    		//swipeDownWithParm(getReadTime())
+    		getStoreColorLocal addIntX, addIntY, clickStoreArray
+    		
+    		Call clickPosition(addIntX, addIntY, getReadTime() * 1000)    		
     		Delay 1000
-
     		Call clickPosition(26, 76, 1000)
+    		
     		back
     		Goto overFindAdd
   		Else
@@ -240,12 +252,12 @@ Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, 
   		End If
 
     	addClick = addClick + 1
-    	getStoreColorLocal (addIntX,addIntY,clickStoreArray)
-    	Call clickPosition(addIntX, addIntY, getReadTime() * 1000)
-    	//swipeDownWithParm(getReadTime())
+    	getStoreColorLocal addIntX, addIntY, clickStoreArray
+    	
+    	Call clickPosition(addIntX, addIntY, getReadTime() * 1000)    	
         Delay 1000
-
     	Call clickPosition(26, 76, 1000)
+    	
     	back
     	//back
   	Else
@@ -563,6 +575,56 @@ Function checkLock()
 		
 End Function
 
+Sub addAttion(attName)
+	back 
+	Delay 2500
+	back 
+	Delay 2500
+	
+	Call clickPosition(addAttX, addAttY, 3000)	
+	Call clickPosition(addAttX, addAttY, 500)
+	Call clickPosition(211, 76, 500)
+	
+	InputText attName
+	Delay 1000
+	Call clickPosition(addAttX, addAttY, 500)			
+	
+	If waitPageLodingOneColor(566, 132, 697, 617, "3856EB", 30, 1000) Then 
+		
+		Delay 2000
+		
+		Dim intX,intY
+		FindMultiColor 535, 500, 706, 1042, "3856EB", "2|0|3856EB,4|0|3856EB,4|0|3856EB", 0, 1, intX, intY
+		
+		If intX > 0 Then 
+			clickPosition intX, intY, 3000							
+		End If
+		
+		
+		If attName = "尚女神" Then 
+			clickPosition 289, 886, 3000
+			If waitPageLodingOneColor(105, 348, 172, 381, "5771F9", 100, 1000) Then 
+				Swipe 500, 1000, 500, 600, 1000					
+				Delay 500
+				Swipe 500, 600, 500, 1000
+				Delay 1000
+				clickPosition 591,66, 1000
+			End If
+			back 
+			Delay 2000
+		End If
+		
+		
+		clickPosition 593, 65, 1500
+		
+	End If
+		
+	
+	backNewHomePage 
+	Delay 2000
+	
+End Sub
+
 
 Sub readConfigInfo()
 	
@@ -574,9 +636,9 @@ Sub readConfigInfo()
     qemhCount = CInt(ReadUIConfig("qemhCount",5))
     wzryswzCount = CInt(ReadUIConfig("wzryswzCount",5))
     ttzxCount = CInt(ReadUIConfig("ttzxCount",5))
-    mnaznCount = CInt(ReadUIConfig("mnaznCount",5))
-    bgrdttCount = CInt(ReadUIConfig("bgrdttCount",3))
+    mnaznCount = CInt(ReadUIConfig("mnaznCount", 5))
+    snsCount = CInt(ReadUIConfig("snsCount", 5))
+    bgrdttCount = CInt(ReadUIConfig("bgrdttCount",4))
     sxznCount = CInt(ReadUIConfig("sxznCount",3))
-    snsCount = CInt(ReadUIConfig("snsCount", 3))
-    
+    ssnhCount = CInt(ReadUIConfig("ssnhCount",3))
 End Sub
