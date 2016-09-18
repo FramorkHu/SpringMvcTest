@@ -1,7 +1,7 @@
 Dim screenX,screenY
 screenX = GetScreenX()
 screenY = GetScreenY()
-Dim ttkbX,ttkbY,attentionX, attentionY, myAttentionX,myAttentionY,fristPosX, firstPosY,addX,addY,minePosX,minePosY,mineSetPosX,mineSetPosY,logOutX,logOutY
+Dim ttkbX,ttkbY,attentionX, attentionY, myAttentionX,myAttentionY,fristPosX, firstPosY,addX,addY,minePosX,minePosY,mineSetPosX,mineSetPosY,logOutX,logOutY,topX,topY
 ttkbX = 77
 ttkbY = 464
 attentionX = 270
@@ -16,6 +16,9 @@ minePosX = 33
 minePosY = 78
 mineSetPosX = 427
 mineSetPosY = 1170
+topX = 347
+topY = 59
+
 Dim addAttX = 682,addAttY = 78
 Dim waitingLoopCount, oneWaitTime
 waitingLoopCount = 100
@@ -147,16 +150,14 @@ Sub accountAllOperate(clickAttNameArray)
 		
 					Else
 						Call info("未找到" & attName)
-						If (attName = "瘦身女皇") Then 
-							addAttion (attName)
-							beforeOperat 
-							FindMultiColor begSehAttX, begSehAttY, endSehAttX, endSehAttY, "1A1A1A", attNamePos, 0, 1, intX, intY
-							If intX > 0 Then
-								Call info("找到"&attName)
-								Dim clickCount1 = oneAccount(2, 10, intX, intY, clickStoreArray, addClickMaxCount,attName)
-								Call File.Append(clickAddInfoFilePath, flag & " " & DateTime.Format("%Y-%m-%d %H:%M:%S") & " 关注号[" & attName & "] 点击量[" & clickCount1 & "] 点击用户[" & currentAccount & "]\n")
-							End If
-						End If						
+						addAttion (attName)
+						beforeOperat 
+						FindMultiColor begSehAttX, begSehAttY, endSehAttX, endSehAttY, "1A1A1A", attNamePos, 0, 1, intX, intY
+						If intX > 0 Then
+							Call info("找到"&attName)
+							Dim clickCount1 = oneAccount(2, 10, intX, intY, clickStoreArray, addClickMaxCount,attName)
+							Call File.Append(clickAddInfoFilePath, flag & " " & DateTime.Format("%Y-%m-%d %H:%M:%S") & " 关注号[" & attName & "] 点击量[" & clickCount1 & "] 点击用户[" & currentAccount & "]\n")
+						End If					
 					End If
 					
 				End If
@@ -233,9 +234,7 @@ Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, 
     		addClick = addClick + 1
     		getStoreColorLocal addIntX, addIntY, clickStoreArray
     		
-    		Call clickPosition(addIntX, addIntY, getReadTime() * 1000)    		
-    		Delay 1000
-    		Call clickPosition(26, 76, 1000)
+    		clickAdd addIntX, addIntY
     		
     		back
     		Goto overFindAdd
@@ -254,9 +253,7 @@ Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, 
     	addClick = addClick + 1
     	getStoreColorLocal addIntX, addIntY, clickStoreArray
     	
-    	Call clickPosition(addIntX, addIntY, getReadTime() * 1000)    	
-        Delay 1000
-    	Call clickPosition(26, 76, 1000)
+    	clickAdd addIntX, addIntY
     	
     	back
     	//back
@@ -272,6 +269,13 @@ Function doClickAddOperation(fristPosX, firstPosY, addX, addY, clickStoreArray, 
  doClickAddOperation = addClick
 End Function
 
+
+Sub clickAdd(addX, addY)
+	Call clickPosition(addX, addY, getReadTime() * 1000)
+	Delay 1000
+	Call clickPosition(topX, topY, 1000)	
+	Call clickPosition(26, 76, 1000)
+End Sub
 
 Sub swipeDown()
  For 100
@@ -471,8 +475,7 @@ Sub getStoreColorLocal(intX, intY, clickStoreArray)
 		Dim currentColor
 		For Each color In colorArray
 			FindColor startCurrentX, currentY, endCurrentX, 1165, color, 3, 1, colorX, colorY
-			If (colorX > 0) Then
-			 	//Call info(currentX&" "&currentY&" "&colorX&" "&colorY)
+			If (colorX > 0) Then			 	
 				currentColor = color
 				Exit For
 			End If
@@ -562,18 +565,45 @@ Function getReadTime
 
 End Function
 
-Function checkLock()
+Function checkLock()	
+	
+	back 
+	Delay 2000
+	
+	clickPosition minePosX, minePosY, 2000
 	
 	Dim intX,intY
 	
-	FindMultiColor 175, 903, 313, 970, "5771F9", "20|10|5771F9,20|20|5771F9,30|20|5771F9", 0, 1, intX, intY
-	If intX > 0 Then 
+	FindColor 15,491,200,549,"333333", 0,1,intX,intY
+		
+	If intX < 0 Then 
 		checkLock = True
 	Else 
-		checkLock = False
+		checkLock = False		
 	End If
-		
+	back 
+	Delay 1000
 End Function
+
+
+Sub checkLock11()
+	
+	clickPosition minePosX, minePosY, 2000
+	
+	Dim intX,intY
+	
+	FindColor 15,491,200,549,"333333", 0,1,intX,intY
+		
+	If intX < 0 Then 
+		checkLock = True
+		info("true")		
+	Else 
+		checkLock = False
+		info("false")		
+	End If
+	back 
+	
+End Sub
 
 Sub addAttion(attName)
 	back 
@@ -585,7 +615,11 @@ Sub addAttion(attName)
 	Call clickPosition(addAttX, addAttY, 500)
 	Call clickPosition(211, 76, 500)
 	
-	InputText attName
+	If (attName = "王者荣耀钻石解说" or attName = "王者荣耀上王者") Then 
+		attName="王者荣耀"
+	End If
+	
+	InputText attName	
 	Delay 1000
 	Call clickPosition(addAttX, addAttY, 500)			
 	
@@ -614,6 +648,24 @@ Sub addAttion(attName)
 			Delay 2000
 		End If
 		
+		If attName = "王者荣耀" Then 
+			clickPosition 550, 1008, 3000
+			If waitPageLodingOneColor(609, 127, 707, 268, "3856EB", 30, 1000) Then 
+				Delay 2000
+				If fingOneColor(620,318, 693,354, "3856EB") Then 
+					clickPosition 663, 347, 1000
+				End If
+				
+				clickPosition topX, topY, 1000
+				If fingOneColor(618,415, 692,452, "3856EB") Then 
+					clickPosition 664, 463, 1000
+				End If
+				
+			End If
+			
+			back 
+			Delay 2000
+		End If
 		
 		clickPosition 593, 65, 1500
 		
@@ -631,14 +683,14 @@ Sub readConfigInfo()
 	 
 	baseFile = ReadUIConfig("baseFilePathData", "/sdcard/Download/")
 	flag = ReadUIConfig("number",1)
-	mbzqCount = CInt(ReadUIConfig("mbzqCount",5))
-    wzryCount = CInt(ReadUIConfig("wzryCount",5))
-    qemhCount = CInt(ReadUIConfig("qemhCount",5))
-    wzryswzCount = CInt(ReadUIConfig("wzryswzCount",5))
-    ttzxCount = CInt(ReadUIConfig("ttzxCount",5))
-    mnaznCount = CInt(ReadUIConfig("mnaznCount", 5))
-    snsCount = CInt(ReadUIConfig("snsCount", 5))
-    bgrdttCount = CInt(ReadUIConfig("bgrdttCount",4))
+	mbzqCount = CInt(ReadUIConfig("mbzqCount",6))
+    wzryCount = CInt(ReadUIConfig("wzryCount",6))
+    qemhCount = CInt(ReadUIConfig("qemhCount",6))
+    wzryswzCount = CInt(ReadUIConfig("wzryswzCount",6))
+    ttzxCount = CInt(ReadUIConfig("ttzxCount",6))
+    mnaznCount = CInt(ReadUIConfig("mnaznCount", 6))
+    snsCount = CInt(ReadUIConfig("snsCount", 6))
+    bgrdttCount = CInt(ReadUIConfig("bgrdttCount",6))
     sxznCount = CInt(ReadUIConfig("sxznCount",3))
     ssnhCount = CInt(ReadUIConfig("ssnhCount",3))
 End Sub
