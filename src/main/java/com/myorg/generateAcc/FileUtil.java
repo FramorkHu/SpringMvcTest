@@ -44,7 +44,7 @@ public class FileUtil {
 
             n++;
             bw.write(data);
-            if ( n!= (count-1) ){
+            if ( n!= (count) ){
                 bw.newLine();
             }
         }

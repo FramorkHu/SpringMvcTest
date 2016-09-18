@@ -10,7 +10,8 @@ import java.util.*;
 public class ClickDataFileGenerate {
 
     private static final String fileDir = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\data";
-    private static final String outDir = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\generateData";
+    private static final String generatePath = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\data";
+    private static final String readAccountPath = "E:\\StudyBench\\SpringMvcTest\\src\\main\\accountData\\cdAccount";
 
     private static final String accountDataPath = "C:\\Users\\happy\\Downloads\\逍遥安卓下载\\";
     private static final int accountSize = 5;
@@ -19,38 +20,37 @@ public class ClickDataFileGenerate {
 
     public ClickDataFileGenerate(){
 
-        //gzhNames.add(new Name("随心之旅", "sxzn"));
         gzhNames.add(new Name("曼巴足球","mbzq"));
-        //gzhNames.add(new Name("王者荣耀钻石解说","wzry"));
+        gzhNames.add(new Name("王者荣耀钻石解说","wzry"));
         gzhNames.add(new Name("企鹅漫画","qemh"));
-        gzhNames.add(new Name("王者荣耀钻石解说|美女爱渣男","wzry|mnazn"));
-        /*gzhNames.add(new Name("王者荣耀上王者","wzryswz"));
         gzhNames.add(new Name("体坛咨讯","ttzx"));
+        gzhNames.add(new Name("王者荣耀上王者","wzryswz"));
         gzhNames.add(new Name("美女爱渣男","mnazn"));
         gzhNames.add(new Name("八卦热点头条","bgrdtt"));
-        gzhNames.add(new Name("尚女神","sns"));*/
+        gzhNames.add(new Name("尚女神","sns"));
+        gzhNames.add(new Name("随心之旅", "sxzn"));
+        gzhNames.add(new Name("瘦身女皇","ssnh"));
 
     }
 
     public static void main(String[] args) throws Exception {
         List<Integer> datas = new ArrayList<>();
-        /*datas.add(1);*/
+        datas.add(1);
         datas.add(2);
         datas.add(3);
-        //datas.add(4);
+        datas.add(4);
         datas.add(5);
 
-
-        //new  ClickDataFileGenerate().getGenerateFile();
-        new  ClickDataFileGenerate().splitFile(1);
-        //new  ClickDataFileGenerate().splitFile(datas);
+        new  ClickDataFileGenerate().getGenerateFile();
+        //new  ClickDataFileGenerate().splitFile(1);
+        new  ClickDataFileGenerate().splitFile(datas);
 
     }
 
 
     private void getGenerateFile() throws IOException {
         List<String> generateDataList = doGenerate();
-        writeFile(generateDataList, outDir);
+        writeFile(generateDataList, generatePath);
     }
 
     public void splitFile(List<Integer> datas) throws IOException {
@@ -66,7 +66,7 @@ public class ClickDataFileGenerate {
 
         BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
-        List<String> datas = getFileDatas(outDir);
+        List<String> datas = getFileDatas(readAccountPath);
 
         for (int i=0; i<accountSize; i++){
             String accountDatas = datas.remove(0);
@@ -81,7 +81,7 @@ public class ClickDataFileGenerate {
         bufferedWriter.close();
 
 
-        writeFile(datas, outDir);
+        writeFile(datas, readAccountPath);
 
     }
 
@@ -108,7 +108,7 @@ public class ClickDataFileGenerate {
     private List<String> doGenerate() throws IOException {
 
 
-        Map<String, List<String>> datas = new HashMap<>();
+        Map<String, List<String>> datas = new LinkedHashMap<>();
 
         List<String> result = new ArrayList<>();
 
@@ -116,21 +116,38 @@ public class ClickDataFileGenerate {
 
         Collections.shuffle(accountDataList);
 
+
         for (String accountData : accountDataList){
+            Set<Integer> number = new HashSet<>();
+            String attINfo = accountData;
+            int attNameNum;
+            do {
+                Random random1 = new Random();
+                attNameNum = random1.nextInt(4);
+            } while ( (attNameNum == 0) || (attNameNum == 1));
 
-            Random random = new Random();
-            int n = random.nextInt(gzhNames.size());
 
-            Name gzh = gzhNames.get(n);
-            result.add(accountData+"|"+gzh.getExt());
+            for (int i=0; i<attNameNum; i++){
 
+                int n;
 
-            List<String> array = datas.get(gzh.getName());
-            if (array == null){
-                array = new ArrayList<>();
+                do {
+                    Random random = new Random();
+                    n = random.nextInt(gzhNames.size());
+                } while (number.contains(n));
+                number.add(n);
+                Name gzh = gzhNames.get(n);
+                attINfo = attINfo+"|"+gzh.getExt();
+                List<String> array = datas.get(gzh.getName());
+                if (array == null){
+                    array = new ArrayList<>();
+                }
+                array.add(accountData);
+                datas.put(gzh.getName(), array);
+
             }
-            array.add(accountData);
-            datas.put(gzh.getName(), array);
+            result.add(attINfo);
+
 
         }
 
