@@ -10,11 +10,11 @@ import java.util.*;
 public class ClickDataFileGenerate {
 
     private static final String fileDir = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\data";
-    private static final String generatePath = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\data";
+    private static final String generatePath = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\generateData";
     private static final String readAccountPath = "E:\\StudyBench\\SpringMvcTest\\src\\main\\accountData\\cdAccount";
 
     private static final String accountDataPath = "C:\\Users\\happy\\Downloads\\逍遥安卓下载\\";
-    private static final int accountSize = 5;
+    private static final int accountSize = 4;
 
     private List<Name> gzhNames = new ArrayList<>();
 
@@ -41,9 +41,9 @@ public class ClickDataFileGenerate {
         datas.add(4);
         datas.add(5);
 
-        new  ClickDataFileGenerate().getGenerateFile();
-        //new  ClickDataFileGenerate().splitFile(1);
-        new  ClickDataFileGenerate().splitFile(datas);
+        //new  ClickDataFileGenerate().getGenerateFile();
+        new  ClickDataFileGenerate().splitFile(2);
+        //new  ClickDataFileGenerate().splitFile(datas);
 
     }
 
@@ -142,10 +142,16 @@ public class ClickDataFileGenerate {
                 if (array == null){
                     array = new ArrayList<>();
                 }
+
                 array.add(accountData);
                 datas.put(gzh.getName(), array);
 
             }
+
+            /*if (attNameNum==2 && !number.contains(2)){
+                attINfo = attINfo+"|qemh";
+            }*/
+
             result.add(attINfo);
 
 
