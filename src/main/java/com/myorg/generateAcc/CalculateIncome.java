@@ -11,18 +11,16 @@ public class CalculateIncome {
     public static void main(String[] args) {
 
         Map<String, Double> mapIncomes = new LinkedHashMap<>();
+
         mapIncomes.put("瘦身女皇",2000.00);
-        mapIncomes.put("随心之旅",2000.00);
-        mapIncomes.put("尚女神",2000.00);
-        mapIncomes.put("体坛咨讯",2000.00);
-        mapIncomes.put("王者荣耀钻石解说",2000.00);
-        mapIncomes.put("八卦热点头条",2000.00);
+        mapIncomes.put("随心之旅+尚女神",1306.25-500+1039.24);
+        mapIncomes.put("体坛咨讯",1459.61);
+        mapIncomes.put("八卦热点头条+王者荣耀钻石解说",590.13+1358.84);
 
-        mapIncomes.put("王者荣耀上王者",2400.00);
-        mapIncomes.put("美女爱渣男",2000.00);
+        mapIncomes.put("美女爱渣男+王者荣耀上王者",1017.36+1062.01);
 
-        mapIncomes.put("曼巴足球",2000.00);
-        mapIncomes.put("企鹅漫画", 2800.00);
+        mapIncomes.put("曼巴足球+企鹅漫画",1831.62+1746.99);
+
 
 
         //List<Double> incomes = new ArrayList<>(mapIncomes.values());
@@ -37,8 +35,8 @@ public class CalculateIncome {
         incomes.add(1831.62);
         incomes.add(1746.99);
 
-        //new CalculateIncome().doCalculate(mapIncomes, 0.3);
-        new CalculateIncome().doCalculate(incomes, 0.3);
+        new CalculateIncome().doCalculate(mapIncomes, 0.25);
+        //new CalculateIncome().doCalculate(incomes, 0.25);
     }
 
 
@@ -61,7 +59,7 @@ public class CalculateIncome {
 
             double thisIncome = (income - tax) * factor;
 
-            System.out.println(accName+":-------["+thisIncome+"]");
+            System.out.println(accName+":-------税["+tax+"] 税后收人["+thisIncome+"]");
             allIncome += thisIncome;
         }
 
