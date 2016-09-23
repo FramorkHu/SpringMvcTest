@@ -8,39 +8,45 @@ import java.util.*;
  */
 public class CalculateIncome {
 
+
     public static void main(String[] args) {
 
-        Map<String, Double> mapIncomes = new LinkedHashMap<>();
+        Map<String, Map<String, Double>> personIncom = new LinkedHashMap<>();
 
-        mapIncomes.put("瘦身女皇",2000.00);
-        mapIncomes.put("随心之旅+尚女神",1306.25-500+1039.24);
-        mapIncomes.put("体坛咨讯",1459.61);
-        mapIncomes.put("八卦热点头条+王者荣耀钻石解说",590.13+1358.84);
+        Map<String, Double> kingsleyIncomes = new LinkedHashMap<>();
 
-        mapIncomes.put("美女爱渣男+王者荣耀上王者",1017.36+1062.01);
+        //kingsleyIncomes.put("瘦身女皇",2000.00);
+        kingsleyIncomes.put("随心之旅+尚女神",1306.25-500+1039.24);
+        kingsleyIncomes.put("体坛咨讯",1459.61);
+        kingsleyIncomes.put("八卦热点头条+王者荣耀钻石解说",590.13+1358.84);
+        personIncom.put("kingsley", kingsleyIncomes);
 
-        mapIncomes.put("曼巴足球+企鹅漫画",1831.62+1746.99);
+        Map<String, Double> wyIncomes = new LinkedHashMap<>();
+        wyIncomes.put("美女爱渣男+王者荣耀上王者",1017.36+1062.01);
+        personIncom.put("王一", wyIncomes);
+
+        Map<String, Double> wkIncomes = new LinkedHashMap<>();
+        wkIncomes.put("曼巴足球+企鹅漫画",1831.62+1746.99);
+        personIncom.put("王可", wkIncomes);
 
 
+        new CalculateIncome().calculateIncome(personIncom, 0.25);
 
-        //List<Double> incomes = new ArrayList<>(mapIncomes.values());
-        List<Double> incomes = new ArrayList<>();
-        incomes.add(590.13);
-        incomes.add(1062.01);
-        incomes.add(1017.36);
-        incomes.add(1039.24);
-        incomes.add(1358.84);
-        incomes.add(1306.25-500);
-        incomes.add(1459.61);
-        incomes.add(1831.62);
-        incomes.add(1746.99);
-
-        new CalculateIncome().doCalculate(mapIncomes, 0.25);
-        //new CalculateIncome().doCalculate(incomes, 0.25);
     }
 
 
-    public void doCalculate(Map<String, Double> incomes, double factor){
+    public void calculateIncome(Map<String, Map<String, Double>> personIncom, double factor){
+
+        double total = 0;
+        for (Map.Entry<String, Map<String, Double>> entry : personIncom.entrySet()){
+            System.out.println(entry.getKey());
+            total += doCalculate(entry.getValue(), factor);
+        }
+
+        System.out.println("总计:" +total);
+    }
+
+    public double doCalculate(Map<String, Double> incomes, double factor){
 
 
         double allIncome = 0;
@@ -63,10 +69,11 @@ public class CalculateIncome {
             allIncome += thisIncome;
         }
 
-        System.out.println("\n总金额："+allIncome);
+        System.out.println("\n总金额："+allIncome+"\n");
+        return allIncome;
     }
 
-    public void doCalculate(List<Double> incomes, double factor){
+    public double doCalculate(List<Double> incomes, double factor){
 
 
         double allIncome = 0;
@@ -88,5 +95,7 @@ public class CalculateIncome {
         }
 
         System.out.println("\n总金额："+allIncome);
+
+        return allIncome;
     }
 }
