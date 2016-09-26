@@ -35,6 +35,10 @@ Dim bgrdttCount
 Dim sxznCount
 Dim snsCount
 Dim ssnhCount
+Dim ay123Count
+Dim ymsgCount
+Dim zylqjlCount
+Dim clickAccountNum
 
 Dim baseFile
 Dim accountFilePath = baseFile&"account"&flag&".txt"
@@ -54,6 +58,9 @@ Dim mnazn = "23|6|1A1A1A,27|19|1A1A1A,74|13|1A1A1A,-24|14|1A1A1A,106|10|F3FCFF"
 Dim qwkkk = "47|13|1A1A1A,81|19|1A1A1A,82|3|1A1A1A,106|6|1A1A1A,104|19|1A1A1A,132|9|F3FCFF"
 Dim wzryswz = "67|20|1A1A1A,26|16|1A1A1A,101|3|1A1A1A,101|19|1A1A1A,125|5|1A1A1A,156|10|F3FCFF"
 Dim ssnh = "26|5|1A1A1A,53|13|1A1A1A,52|17|1A1A1A,57|20|1A1A1A,80|10|F3FCFF"
+Dim ay123 =  "-8|16|1A1A1A,8|16|1A1A1A,24|7|1A1A1A,45|18|1A1A1A,45|8|1A1A1A,94|10|F3FCFF"
+Dim ymsg = "-33|13|1A1A1A,-29|14|1A1A1A,-31|2|1A1A1A,31|5|1A1A1A,50|6|1A1A1A,77|10|F3FCFF"
+Dim zylqjl = "-77|6|1A1A1A,-84|1|1A1A1A,-57|11|1A1A1A,-11|10|1A1A1A,27|4|1A1A1A,50|12|1A1A1A,73|10|F3FCFF"
 
 Dim attNameArray = Array()
 attNameArray(0)=Array("曼巴足球",mbzq,mbzqCount,"mbzq")
@@ -65,7 +72,10 @@ attNameArray(5)=Array("美女爱渣男",mnazn,mnaznCount,"mnazn")
 attNameArray(6)=Array("八卦热点头条",bgrdtt,bgrdttCount,"bgrdtt")
 attNameArray(7)=Array("随心之旅", sxzn,sxznCount,"sxzn")
 attNameArray(8) = Array("尚女神", sns, snsCount, "sns")
-attNameArray(9) = Array("瘦身女皇",ssnh,ssnhCount,"ssnh")
+attNameArray(9) = Array("瘦身女皇", ssnh, ssnhCount, "ssnh")
+attNameArray(10) = Array("奥运123", ay123, ay123Count, "ay123")
+attNameArray(11) = Array("研磨时光", ymsg, ymsgCount, "ymsg")
+attNameArray(12) = Array("职业篮球教练",zylqjl,zylqjlCount,"zylqjl")
 
 Dim begSehAttX = 10
 Dim begSehAttY = 172
@@ -80,19 +90,11 @@ a
 
 
 Sub a()
- clickPosition minePosX, minePosY, 2000
-
- If not(fingYanz(114, 401, 279, 440, "C0C0C0", "50|10|C0C0C0, 60|10|C0C0C0")) Then
-  KeyPress "Back"
-  Delay 1000
-  //accountAllOperate
- Else
-  KeyPress "Back"
- End If
 
  Dim accountInfo
-
- For Each account In accountArray
+ Dim runAccountNum = 0
+ For Each account In accountArray	
+	
  	currentAccount = account
  	accountInfo = Split(account, "|")
   	Call info(accountInfo(0) & " " & accountInfo(1))
@@ -103,7 +105,7 @@ Sub a()
 	Next
 	
 
-  	If login(accountInfo(0), accountInfo(1), 120, 1000, 10) Then
+  	If login(accountInfo(0), accountInfo(1), 1200, 1000, 10) Then
 
    		Delay 7000
    		clickPosition attentionX, attentionY, 3000
@@ -122,24 +124,29 @@ Sub a()
    		Delay 2000
    	End If
 	File.DeleteLine accountFilePath, 1
+	
+	runAccountNum = runAccountNum + 1
+	If (runAccountNum >= clickAccountNum) Then 
+		Exit For
+	End If
  Next
 End Sub
 
+
 Sub accountAllOperate(clickAttNameArray)
-	If beforeOperat() Then
-		For Each attNameInfo In attNameArray
-				
+	If beforeOperat() Then 
+		For Each clickAttName In clickAttNameArray
+		
 			checkMyAtt
 			Dim clickStoreArray()
-			Dim intX,intY
-
-			Dim attName = attNameInfo(0)
-			Dim attNamePos = attNameInfo(1)
-			Dim addClickMaxCount =attNameInfo(2)
-			Dim attNameExt =attNameInfo(3)
+			Dim intX,intY			
 			
-			For Each clickAttName In clickAttNameArray
+			For Each attNameInfo In attNameArray			
 			
+				Dim attName = attNameInfo(0)
+				Dim attNamePos = attNameInfo(1)
+				Dim addClickMaxCount =attNameInfo(2)
+				Dim attNameExt =attNameInfo(3)
 				If attNameExt = clickAttName Then 
 					
 					FindMultiColor begSehAttX, begSehAttY, endSehAttX, endSehAttY, "1A1A1A", attNamePos, 0, 1, intX, intY
@@ -174,7 +181,6 @@ Sub accountAllOperate(clickAttNameArray)
 	End If
 
 End Sub
-
 
 
 Function beforeOperat()
@@ -634,6 +640,23 @@ Sub addAttion(attName)
 			clickPosition intX, intY, 3000							
 		End If
 		
+		If attName = "美女爱渣男" Then 
+			Dim mnaznX,mnaznY
+			FindMultiColor 130, 789, 386, 1199, "1A1A1A", "-18|6|1A1A1A,41|10|1A1A1A,52|5|1A1A1A,64|3|1A1A1A", 0, 1, mnaznX, mnaznY
+			
+			If mnaznX > 0 Then 
+				clickPosition mnaznX, mnaznY, 3000
+				If waitPageLodingOneColor(105, 348, 172, 381, "5771F9", 100, 1000) Then 
+					Swipe 500, 1000, 500, 600, 1000					
+					Delay 500
+					Swipe 500, 600, 500, 1000
+					Delay 1000
+					clickPosition 591,66, 1000
+				End If
+				back 
+				Delay 2000
+			End If
+		End If
 		
 		If attName = "尚女神" Then 
 			clickPosition 289, 886, 3000
@@ -649,22 +672,28 @@ Sub addAttion(attName)
 		End If
 		
 		If attName = "王者荣耀" Then 
-			clickPosition 550, 1008, 3000
-			If waitPageLodingOneColor(609, 127, 707, 268, "3856EB", 30, 1000) Then 
+			Dim wzryX,wzryY
+			FindMultiColor 481, 808, 639, 1201, "1A1A1A", "0|6|1A1A1A,5|-29|F0F0F0,12|-54|B1B1B1,29|-59|F0F0F0", 0, 1, wzryX, wzryY
+			If wzryX > 0 Then 
+				wzryY = wzryY-30
+				clickPosition wzryX, wzryY, 3000
+				If waitPageLodingOneColor(609, 127, 707, 268, "3856EB", 30, 1000) Then 
+					Delay 2000
+					If fingOneColor(620,318, 693,354, "3856EB") Then 
+						clickPosition 663, 347, 1000
+					End If
+					
+					clickPosition topX, topY, 1000
+					If fingOneColor(618,415, 692,452, "3856EB") Then 
+						clickPosition 664, 463, 1000
+					End If
+					
+				End If
+				
+				back 
 				Delay 2000
-				If fingOneColor(620,318, 693,354, "3856EB") Then 
-					clickPosition 663, 347, 1000
-				End If
-				
-				clickPosition topX, topY, 1000
-				If fingOneColor(618,415, 692,452, "3856EB") Then 
-					clickPosition 664, 463, 1000
-				End If
-				
 			End If
 			
-			back 
-			Delay 2000
 		End If
 		
 		clickPosition 593, 65, 1500
@@ -682,7 +711,10 @@ Sub readConfigInfo()
 	
 	 
 	baseFile = ReadUIConfig("baseFilePathData", "/sdcard/Download/")
-	flag = ReadUIConfig("number",1)
+	flag = ReadUIConfig("number", 1)
+	
+	clickAccountNum = CInt(ReadUIConfig("clickAccountNum", 5))
+	
 	mbzqCount = CInt(ReadUIConfig("mbzqCount",6))
     wzryCount = CInt(ReadUIConfig("wzryCount",6))
     qemhCount = CInt(ReadUIConfig("qemhCount",6))
@@ -690,7 +722,10 @@ Sub readConfigInfo()
     ttzxCount = CInt(ReadUIConfig("ttzxCount",6))
     mnaznCount = CInt(ReadUIConfig("mnaznCount", 6))
     snsCount = CInt(ReadUIConfig("snsCount", 6))
-    bgrdttCount = CInt(ReadUIConfig("bgrdttCount",6))
+    bgrdttCount = CInt(ReadUIConfig("bgrdttCount", 6))
+    ay123Count = CInt(ReadUIConfig("ay123Count", 5))
+    ymsgCount = CInt(ReadUIConfig("ymsgCount", 5))
+    zylqjlCount = CInt(ReadUIConfig("zylqjlCount", 5))
     sxznCount = CInt(ReadUIConfig("sxznCount",3))
     ssnhCount = CInt(ReadUIConfig("ssnhCount",3))
 End Sub
