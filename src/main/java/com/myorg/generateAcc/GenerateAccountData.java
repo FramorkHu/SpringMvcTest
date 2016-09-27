@@ -18,12 +18,12 @@ public class GenerateAccountData {
     public static final String cdAccountPath = "E:\\StudyBench\\SpringMvcTest\\src\\main\\accountData\\cdAccount";
     public static final String generatePath = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\generateData";
     public static final String allAccountPath = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\data";
-
+    String dataTime = "2016-09-26";
 
     public static void main(String[] args) throws Exception {
         GenerateAccountData accountData = new GenerateAccountData();
 
-        accountData.printClickCount();
+        accountData.splitAccountToFile();
 
 
     }
@@ -35,8 +35,8 @@ public class GenerateAccountData {
 
     private void writeBaseFileInfo() throws Exception {
         Map<String, String> filePathMap = new HashMap<>();
-        filePathMap.put("C:\\Users\\happy\\Downloads\\逍遥安卓下载\\clickAdd2016-09-17.txt", cdAccBaseInfoPath);
-        filePathMap.put("C:\\Users\\happy\\Documents\\Tencent Files\\475616043\\FileRecv\\clickAdd2016-09-17.txt", dyAccBaseInfoPath);
+        filePathMap.put("C:\\Users\\happy\\Downloads\\逍遥安卓下载\\clickAdd"+dataTime+".txt", cdAccBaseInfoPath);
+        filePathMap.put("C:\\Users\\happy\\Documents\\Tencent Files\\475616043\\FileRecv\\clickAdd"+dataTime+".txt", dyAccBaseInfoPath);
 
 
         List<AccountInfo> accountInfos = getAddAccountInfo(filePathMap);
@@ -50,8 +50,9 @@ public class GenerateAccountData {
 
     private void printClickCount() throws Exception {
         Map<String, String> filePathMap = new HashMap<>();
-        filePathMap.put("C:\\Users\\happy\\Downloads\\逍遥安卓下载\\clickAdd2016-09-17.txt", cdAccBaseInfoPath);
-        //filePathMap.put("C:\\Users\\happy\\Documents\\Tencent Files\\475616043\\FileRecv\\clickAdd2016-09-17.txt", dyAccBaseInfoPath);
+
+        //filePathMap.put("C:\\Users\\happy\\Downloads\\逍遥安卓下载\\clickAdd"+dataTime+".txt", cdAccBaseInfoPath);
+        filePathMap.put("C:\\Users\\happy\\Documents\\Tencent Files\\475616043\\FileRecv\\clickAdd"+dataTime+".txt", dyAccBaseInfoPath);
 
         List<AccountInfo> accountInfos = getAddAccountInfo(filePathMap);
         AccountInfo accountInfo = mergeAccount(accountInfos);

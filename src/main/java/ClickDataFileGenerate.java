@@ -14,7 +14,7 @@ public class ClickDataFileGenerate {
     private static final String readAccountPath = "E:\\StudyBench\\SpringMvcTest\\src\\main\\accountData\\cdAccount";
 
     private static final String accountDataPath = "C:\\Users\\happy\\Downloads\\逍遥安卓下载\\";
-    private static final int accountSize = 4;
+    private static final int accountSize = 20;
 
     private List<Name> gzhNames = new ArrayList<>();
 
@@ -30,6 +30,9 @@ public class ClickDataFileGenerate {
         gzhNames.add(new Name("尚女神","sns"));
         gzhNames.add(new Name("随心之旅", "sxzn"));
         gzhNames.add(new Name("瘦身女皇","ssnh"));
+        gzhNames.add(new Name("奥运123","ay123"));
+        gzhNames.add(new Name("研磨时光","ymsg"));
+        gzhNames.add(new Name("职业篮球教练","zylqjl"));
 
     }
 
@@ -42,8 +45,8 @@ public class ClickDataFileGenerate {
         datas.add(5);
 
         //new  ClickDataFileGenerate().getGenerateFile();
-        new  ClickDataFileGenerate().splitFile(2);
-        //new  ClickDataFileGenerate().splitFile(datas);
+        //new  ClickDataFileGenerate().splitFile(1);
+        new  ClickDataFileGenerate().splitFile(datas);
 
     }
 

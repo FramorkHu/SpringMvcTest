@@ -15,7 +15,7 @@ public class CalculateIncome {
 
         Map<String, Double> kingsleyIncomes = new LinkedHashMap<>();
 
-        //kingsleyIncomes.put("瘦身女皇",2000.00);
+        kingsleyIncomes.put("瘦身女皇",2000.00);
         kingsleyIncomes.put("随心之旅+尚女神",1306.25-500+1039.24);
         kingsleyIncomes.put("体坛咨讯",1459.61);
         kingsleyIncomes.put("八卦热点头条+王者荣耀钻石解说",590.13+1358.84);
@@ -29,6 +29,11 @@ public class CalculateIncome {
         wkIncomes.put("曼巴足球+企鹅漫画",1831.62+1746.99);
         personIncom.put("王可", wkIncomes);
 
+        Map<String, Double> addIncomes = new LinkedHashMap<>();
+        addIncomes.put("研磨时光",150.00);
+        addIncomes.put("奥运123",150.00);
+        addIncomes.put("职业篮球教练",150.00);
+        personIncom.put("阿达达", addIncomes);
 
         new CalculateIncome().calculateIncome(personIncom, 0.25);
 
