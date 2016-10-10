@@ -39,6 +39,7 @@ Dim ay123Count
 Dim ymsgCount
 Dim zylqjlCount
 Dim clickAccountNum
+Dim yzWaitTime
 
 Dim baseFile
 Dim accountFilePath = baseFile&"account"&flag&".txt"
@@ -105,7 +106,7 @@ Sub a()
 	Next
 	
 
-  	If login(accountInfo(0), accountInfo(1), 1200, 1000, 10) Then
+  	If login(accountInfo(0), accountInfo(1), yzWaitTime, 1000, 10) Then
 
    		Delay 7000
    		clickPosition attentionX, attentionY, 3000
@@ -343,16 +344,11 @@ Function login(user, pass, loopCount, waitTime, afterYZLoopCount)
 
  Dim i=0
  Dim noYZFlage = 2
- Dim writeYz = 1
  While i < loopCount
  	If fingYanz(20, 57, 93, 95, "333333", "-36|11|333333,-40|1|333333,6|18|333333,-6|16|333333") Then
 
  		If fingYanz(121, 478, 273, 526, "2042E9", "50|10|2042E9, 60|10|2042E9") Then 
- 			
- 			If writeYz = 1 Then 
- 				Call File.Append(yzmFilePath, user&" "&pass&"\n")
- 			End If
- 			writeYz = 2
+
  			noYZFlage = 0
      		PlaySound "/system/media/audio/alarms/Alarm_Beep_03.ogg"
      	ElseIf noYZFlage = 0 Then
@@ -618,7 +614,7 @@ Sub addAttion(attName)
 	Delay 2500
 	
 	Call clickPosition(addAttX, addAttY, 3000)	
-	Call clickPosition(addAttX, addAttY, 500)
+	Call clickPosition(addAttX, addAttY, 3000)
 	Call clickPosition(211, 76, 500)
 	
 	If (attName = "王者荣耀钻石解说" or attName = "王者荣耀上王者") Then 
@@ -648,10 +644,10 @@ Sub addAttion(attName)
 				clickPosition mnaznX, mnaznY, 3000
 				If waitPageLodingOneColor(105, 348, 172, 381, "5771F9", 100, 1000) Then 
 					Swipe 500, 1000, 500, 600, 1000					
-					Delay 500
+					Delay 1000
 					Swipe 500, 600, 500, 1000
 					Delay 1000
-					clickPosition 591,66, 1000
+					clickPosition 591,66, 1500
 				End If
 				back 
 				Delay 2000
@@ -662,10 +658,12 @@ Sub addAttion(attName)
 			clickPosition 289, 886, 3000
 			If waitPageLodingOneColor(105, 348, 172, 381, "5771F9", 100, 1000) Then 
 				Swipe 500, 1000, 500, 600, 1000					
-				Delay 500
+				Delay 1000
 				Swipe 500, 600, 500, 1000
 				Delay 1000
-				clickPosition 591,66, 1000
+				clickPosition 591, 66, 1500
+				
+				clickPosition topX, topY, 1000
 			End If
 			back 
 			Delay 2000
@@ -714,7 +712,7 @@ Sub readConfigInfo()
 	flag = ReadUIConfig("number", 1)
 	
 	clickAccountNum = CInt(ReadUIConfig("clickAccountNum", 5))
-	
+	yzWaitTime = CInt(ReadUIConfig("yzWaitTimeNum", 1200))
 	mbzqCount = CInt(ReadUIConfig("mbzqCount",6))
     wzryCount = CInt(ReadUIConfig("wzryCount",6))
     qemhCount = CInt(ReadUIConfig("qemhCount",6))
@@ -723,9 +721,9 @@ Sub readConfigInfo()
     mnaznCount = CInt(ReadUIConfig("mnaznCount", 6))
     snsCount = CInt(ReadUIConfig("snsCount", 6))
     bgrdttCount = CInt(ReadUIConfig("bgrdttCount", 6))
-    ay123Count = CInt(ReadUIConfig("ay123Count", 5))
-    ymsgCount = CInt(ReadUIConfig("ymsgCount", 5))
-    zylqjlCount = CInt(ReadUIConfig("zylqjlCount", 5))
+    ay123Count = CInt(ReadUIConfig("ay123Count", 3))
+    ymsgCount = CInt(ReadUIConfig("ymsgCount", 3))
+    zylqjlCount = CInt(ReadUIConfig("zylqjlCount", 3))
     sxznCount = CInt(ReadUIConfig("sxznCount",3))
     ssnhCount = CInt(ReadUIConfig("ssnhCount",3))
 End Sub
