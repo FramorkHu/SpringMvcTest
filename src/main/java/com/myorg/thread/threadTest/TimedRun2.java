@@ -35,6 +35,7 @@ public class TimedRun2 {
 
         RethrowableTask task = new RethrowableTask();
         final Thread taskThread = new Thread(task);
+        System.out.println("taskThread:"+taskThread.getName());
         taskThread.start();
         cancelExec.schedule(new Runnable() {
             public void run() {
