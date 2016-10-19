@@ -53,27 +53,22 @@ public class EchoClient {
         try {
             ChannelFuture future = client.connect().sync();
 
+            ChannelFuture closeFuture = future.channel().closeFuture().sync();
 
-            Channel channel = future.channel();
+            closeFuture.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            for (;;) {
-                String line = in.readLine();
-                if (line == null) {
-                    continue;
-                }
-                /*future.addListener(new ChannelFutureListener() {
-                    @Override
-                    public void operationComplete(ChannelFuture future) throws Exception {
-
-                        System.out.println(future.isSuccess()+" "+future.isDone());
+                    if (future.isSuccess()){
+                        System.out.println("server is close");
+                    } else {
+                        future.cause().printStackTrace();
                     }
-                });*/
-                channel.writeAndFlush(Unpooled.copiedBuffer(encode(new BaseData(line))));
+                }
+            });
 
-            }
-
-
+            System.out.println("end");
+            //while (true);
         } finally {
             group.shutdownGracefully().sync();
         }

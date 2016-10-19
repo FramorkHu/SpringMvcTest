@@ -20,16 +20,21 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
         ByteBuf in = (ByteBuf) msg;
 
-        BaseData baseData = JSON.parseObject(in.toString(CharsetUtil.UTF_8), BaseData.class);
-        System.out.println("server received :"+ baseData.getId());
+        //BaseData baseData = JSON.parseObject(in.toString(CharsetUtil.UTF_8), BaseData.class);
+        System.out.println("server received :"+ in.toString(CharsetUtil.UTF_8));
         ctx.writeAndFlush(in);
     }
 
-   /* @Override
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channel is active");
+    }
+
+
+    @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
-                .addListener(ChannelFutureListener.CLOSE);
-    }*/
+        //ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
+    }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
