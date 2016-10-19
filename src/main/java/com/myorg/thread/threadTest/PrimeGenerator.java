@@ -18,7 +18,9 @@ import java.util.concurrent.*;
  */
 @ThreadSafe
 public class PrimeGenerator implements Runnable {
-    private static ExecutorService exec = Executors.newCachedThreadPool();
+    private static ExecutorService exec = new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+            1, TimeUnit.SECONDS,
+            new SynchronousQueue<Runnable>(),new MyThreadFactory());
 
     @GuardedBy("this") private final List<BigInteger> primes
             = new ArrayList<BigInteger>();
@@ -26,9 +28,13 @@ public class PrimeGenerator implements Runnable {
 
     public void run() {
         BigInteger p = BigInteger.ONE;
-        while (!cancelled) {
+        System.out.println("threadName:"+Thread.currentThread().getName());
+        while (!Thread.currentThread().isInterrupted()) {
             p = p.nextProbablePrime();
             synchronized (this) {
+                if (p.intValue() == 107){
+                    throw new NullPointerException();
+                }
                 primes.add(p);
             }
         }
@@ -46,10 +52,32 @@ public class PrimeGenerator implements Runnable {
         PrimeGenerator generator = new PrimeGenerator();
         exec.execute(generator);
         try {
-            SECONDS.sleep(1);
+            SECONDS.sleep(2);
         } finally {
             generator.cancel();
         }
+
         return generator.get();
+    }
+}
+
+
+class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+
+    @Override
+    public void uncaughtException(Thread t, Throwable e) {
+
+        System.out.println("catch exception:"+ t.getName()+e.toString());
+    }
+}
+
+class MyThreadFactory implements ThreadFactory {
+    @Override
+    public Thread newThread(Runnable r) {
+
+        Thread thread = new Thread(r);
+        thread.setUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
+
+        return thread;
     }
 }
