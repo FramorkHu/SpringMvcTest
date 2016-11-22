@@ -36,6 +36,8 @@ Dim ssnhCount
 Dim ay123Count
 Dim ymsgCount
 Dim zylqjlCount
+Dim ttdjtCount
+Dim cszlCount
 Dim clickAccountNum
 Dim yzWaitTime
 
@@ -58,6 +60,8 @@ Dim ssnh = "38|10|1A1A1A,24|7|1A1A1A,92|12|1A1A1A,94|24|1A1A1A,129|14|F3FCFF"
 Dim ay123 =  "11|4|1A1A1A,58|19|1A1A1A,75|24|1A1A1A,93|14|1A1A1A,120|15|F3FCFF"
 Dim ymsg = "2|15|1A1A1A,37|7|1A1A1A,41|17|1A1A1A,64|11|1A1A1A,74|11|1A1A1A,97|14|F3FCFF"
 Dim zylqjl = "-85|8|1A1A1A,-91|10|1A1A1A,-127|2|1A1A1A,-116|16|1A1A1A,73|15|F3FCFF"
+Dim ttdjt = "46|11|1A1A1A,108|6|1A1A1A,113|11|1A1A1A,105|14|1A1A1A,135|17|1A1A1A,170|14|F3FCFF"
+Dim cszl = "13|1|1A1A1A,65|6|1A1A1A,79|6|1A1A1A,92|7|1A1A1A,97|15|1A1A1A,137|14|F3FCFF"
 
 Dim attNameArray = Array()
 attNameArray(0)=Array("曼巴足球",mbzq,mbzqCount,"mbzq",1)
@@ -73,6 +77,8 @@ attNameArray(9) = Array("瘦身女皇", ssnh, ssnhCount, "ssnh")
 attNameArray(10) = Array("奥运123", ay123, ay123Count, "ay123")
 attNameArray(11) = Array("研磨时光", ymsg, ymsgCount, "ymsg")
 attNameArray(12) = Array("职业篮球教练",zylqjl,zylqjlCount,"zylqjl")
+attNameArray(13) = Array("体坛大讲堂", ttdjt, ttdjtCount, "ttdjt")
+attNameArray(14) = Array("超神之路", cszl, cszlCount, "cszl")
 
 Dim begSehAttX = 7
 Dim begSehAttY = 211
@@ -533,10 +539,31 @@ Sub addAttion(attName)
 		Delay 2000
 		
 		Dim intX,intY
-		FindMultiColor 476,690, 713,1253, "2042E9", "2|0|2042E9,4|0|2042E9,4|0|2042E9", 0, 1, intX, intY
+		FindMultiColor 476, 690, 713, 1253, "2042E9", "14|18|2042E9,49|19|2042E9,2|0|2042E9,4|0|2042E9,4|0|2042E9", 0, 1, intX, intY
 		
 		If intX > 0 Then 
 			clickPosition intX, intY, 3000							
+		End If
+		
+		
+		If attName = "超神之路" Then 
+			Dim cszlX,cszlY
+			
+			FindMultiColor 147,776, 366,1254, "1A1A1A", "34|2|1A1A1A,80|13|1A1A1A,86|17|1A1A1A,59|19|1A1A1A,84|2|1A1A1A", 0, 1, cszlX, cszlY			
+			
+			If cszlX > 0 Then 
+				clickPosition cszlX, cszlY, 3000
+				If waitPageLodingOneColor(131,430, 307,524, "5771F9", 100, 1000) Then 
+					Swipe 500, 1000, 500, 600, 1000					
+					Delay 1000
+					Swipe 500, 600, 500, 1000
+					Delay 1000
+					clickPosition 560, 92, 1500
+					clickPosition topX, topY, 1000
+				End If
+				back 
+				Delay 2000
+			End If
 		End If
 		
 		If attName = "美女爱渣男" Then 
@@ -668,5 +695,6 @@ Sub readConfigInfo()
     zylqjlCount = CInt(ReadUIConfig("zylqjlCount", 3))
     sxznCount = CInt(ReadUIConfig("sxznCount",3))
     ssnhCount = CInt(ReadUIConfig("ssnhCount",3))
-    
+    cszlCount = CInt(ReadUIConfig("cszlCount", 3))
+    ttdjtCount = CInt(ReadUIConfig("ttdjtCount", 3))    
 End Sub

@@ -1,11 +1,13 @@
 Dim screenX,screenY
 screenX = GetScreenX()
 screenY = GetScreenY()
-Dim ttkbX,ttkbY,attentionX, attentionY, myAttentionX,myAttentionY,fristPosX, firstPosY,addX,addY,minePosX,minePosY,mineSetPosX,mineSetPosY,logOutX,logOutY,topX,topY
+Dim ttkbX,ttkbY,attentionX, attentionY, myAttentionX,myAttentionY,fristPosX, firstPosY,addX,addY,minePosX,minePosY,mineSetPosX,mineSetPosY,logOutX,logOutY,topX,topY, baseAttentionX, baseAttentionY
 ttkbX = 77
 ttkbY = 464
-attentionX = 270
-attentionY = 78
+
+baseAttentionX= 110
+baseAttentionY = 70
+
 myAttentionX = 307
 myAttentionY = 147
 fristPosX = 379
@@ -38,8 +40,15 @@ Dim ssnhCount
 Dim ay123Count
 Dim ymsgCount
 Dim zylqjlCount
+Dim ttdjtCount
+Dim cszlCount
 Dim clickAccountNum
 Dim yzWaitTime
+Dim attPosData
+
+
+attentionX =  baseAttentionX + (attPosData-1)*83
+attentionY = baseAttentionY
 
 Dim baseFile
 Dim accountFilePath = baseFile&"account"&flag&".txt"
@@ -62,6 +71,8 @@ Dim ssnh = "26|5|1A1A1A,53|13|1A1A1A,52|17|1A1A1A,57|20|1A1A1A,80|10|F3FCFF"
 Dim ay123 =  "-8|16|1A1A1A,8|16|1A1A1A,24|7|1A1A1A,45|18|1A1A1A,45|8|1A1A1A,94|10|F3FCFF"
 Dim ymsg = "-33|13|1A1A1A,-29|14|1A1A1A,-31|2|1A1A1A,31|5|1A1A1A,50|6|1A1A1A,77|10|F3FCFF"
 Dim zylqjl = "-77|6|1A1A1A,-84|1|1A1A1A,-57|11|1A1A1A,-11|10|1A1A1A,27|4|1A1A1A,50|12|1A1A1A,73|10|F3FCFF"
+Dim ttdjt = "47|6|1A1A1A,79|7|1A1A1A,103|16|1A1A1A,97|18|1A1A1A,90|20|1A1A1A,124|10|F3FCFF"
+Dim cszl = "10|1|1A1A1A,35|4|1A1A1A,41|10|1A1A1A,82|15|1A1A1A,90|19|1A1A1A,108|10|F3FCFF"
 
 Dim attNameArray = Array()
 attNameArray(0)=Array("曼巴足球",mbzq,mbzqCount,"mbzq")
@@ -77,6 +88,8 @@ attNameArray(9) = Array("瘦身女皇", ssnh, ssnhCount, "ssnh")
 attNameArray(10) = Array("奥运123", ay123, ay123Count, "ay123")
 attNameArray(11) = Array("研磨时光", ymsg, ymsgCount, "ymsg")
 attNameArray(12) = Array("职业篮球教练",zylqjl,zylqjlCount,"zylqjl")
+attNameArray(13) = Array("体坛大讲堂", ttdjt, ttdjtCount, "ttdjt")
+attNameArray(14) = Array("超神之路",cszl,cszlCount,"cszl")
 
 Dim begSehAttX = 10
 Dim begSehAttY = 172
@@ -87,8 +100,7 @@ Dim sehMoveY = 57
 
 Dim currentAccount
 
-a
-
+a 
 
 Sub a()
 
@@ -636,6 +648,26 @@ Sub addAttion(attName)
 			clickPosition intX, intY, 3000							
 		End If
 		
+		If attName = "超神之路" Then 
+			Dim cszlX,cszlY
+			
+			FindMultiColor 126, 615, 369, 1038, "000000","24|7|000000,28|26|000000,12|57|010101,48|66|010101,49|76|010101", 0, 1, cszlX, cszlY			
+			
+			If cszlX > 0 Then 
+				clickPosition cszlX, cszlY, 3000
+				If waitPageLodingOneColor(105, 348, 172, 381, "5771F9", 100, 1000) Then 
+					Swipe 500, 1000, 500, 600, 1000					
+					Delay 1000
+					Swipe 500, 600, 500, 1000
+					Delay 1000
+					clickPosition 591, 66, 1500
+					clickPosition topX, topY, 1000
+				End If
+				back 
+				Delay 2000
+			End If
+		End If
+		
 		If attName = "美女爱渣男" Then 
 			Dim mnaznX,mnaznY
 			FindMultiColor 130, 789, 386, 1199, "1A1A1A", "-18|6|1A1A1A,41|10|1A1A1A,52|5|1A1A1A,64|3|1A1A1A", 0, 1, mnaznX, mnaznY
@@ -647,7 +679,8 @@ Sub addAttion(attName)
 					Delay 1000
 					Swipe 500, 600, 500, 1000
 					Delay 1000
-					clickPosition 591,66, 1500
+					clickPosition 591, 66, 1500
+					clickPosition topX, topY, 1000
 				End If
 				back 
 				Delay 2000
@@ -661,8 +694,7 @@ Sub addAttion(attName)
 				Delay 1000
 				Swipe 500, 600, 500, 1000
 				Delay 1000
-				clickPosition 591, 66, 1500
-				
+				clickPosition 591, 66, 1500				
 				clickPosition topX, topY, 1000
 			End If
 			back 
@@ -712,6 +744,7 @@ Sub readConfigInfo()
 	flag = ReadUIConfig("number", 1)
 	
 	clickAccountNum = CInt(ReadUIConfig("clickAccountNum", 5))
+	attPosData = CInt(ReadUIConfig("attPosData", 4))	
 	yzWaitTime = CInt(ReadUIConfig("yzWaitTimeNum", 1200))
 	mbzqCount = CInt(ReadUIConfig("mbzqCount",6))
     wzryCount = CInt(ReadUIConfig("wzryCount",6))
@@ -724,6 +757,8 @@ Sub readConfigInfo()
     ay123Count = CInt(ReadUIConfig("ay123Count", 3))
     ymsgCount = CInt(ReadUIConfig("ymsgCount", 3))
     zylqjlCount = CInt(ReadUIConfig("zylqjlCount", 3))
+    ttdjtCount = CInt(ReadUIConfig("ttdjtCount", 3))    
     sxznCount = CInt(ReadUIConfig("sxznCount",3))
-    ssnhCount = CInt(ReadUIConfig("ssnhCount",3))
+    ssnhCount = CInt(ReadUIConfig("ssnhCount", 3))
+    cszlCount = CInt(ReadUIConfig("cszlCount", 3))
 End Sub
