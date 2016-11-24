@@ -13,8 +13,8 @@ public class ClickDataFileGenerate {
     private static final String generatePath = "E:\\StudyBench\\SpringMvcTest\\src\\main\\clickAdd\\generateData";
     private static final String readAccountPath = "E:\\StudyBench\\SpringMvcTest\\src\\main\\accountData\\cdAccount";
 
-    private static final String accountDataPath = "C:\\Users\\happy\\Downloads\\逍遥安卓下载\\";
-    private static final int accountSize = 20;
+    private static final String accountDataPath = /*"C:\\Users\\happy\\Nox_share\\Other\\";//*/"C:\\Users\\happy\\Downloads\\逍遥安卓下载\\";
+    private static final int accountSize = 16;
 
     private List<Name> gzhNames = new ArrayList<>();
 
@@ -33,6 +33,8 @@ public class ClickDataFileGenerate {
         gzhNames.add(new Name("奥运123","ay123"));
         gzhNames.add(new Name("研磨时光","ymsg"));
         gzhNames.add(new Name("职业篮球教练","zylqjl"));
+        gzhNames.add(new Name("体坛大讲堂","ttdjt"));
+        gzhNames.add(new Name("超神之路","cszl"));
 
     }
 
@@ -42,11 +44,12 @@ public class ClickDataFileGenerate {
         datas.add(2);
         datas.add(3);
         datas.add(4);
-        datas.add(5);
+        //datas.add(5);
 
         //new  ClickDataFileGenerate().getGenerateFile();
-        //new  ClickDataFileGenerate().splitFile(1);
-        new  ClickDataFileGenerate().splitFile(datas);
+
+        new  ClickDataFileGenerate().splitFile(5);
+        //new  ClickDataFileGenerate().splitFile(datas);
 
     }
 
@@ -126,8 +129,8 @@ public class ClickDataFileGenerate {
             int attNameNum;
             do {
                 Random random1 = new Random();
-                attNameNum = random1.nextInt(4);
-            } while ( (attNameNum == 0) || (attNameNum == 1));
+                attNameNum = random1.nextInt(5);
+            } while ( (attNameNum == 0) || (attNameNum == 1)|| (attNameNum == 2));
 
 
             for (int i=0; i<attNameNum; i++){
@@ -162,7 +165,8 @@ public class ClickDataFileGenerate {
 
         Collections.shuffle(result);
 
-        for (Map.Entry<String, List<String>> entry: datas.entrySet()){
+        Map<String, List<String>> sortData = sortData(datas);
+        for (Map.Entry<String, List<String>> entry: sortData.entrySet()){
 
             System.out.println(entry.getKey()+" "+entry.getValue().size());
         }
@@ -187,6 +191,19 @@ public class ClickDataFileGenerate {
         }
 
         br.close();
+        return result;
+    }
+
+    private Map<String,List<String>> sortData(Map<String,List<String>> datas){
+
+        Map<String, List<String>> result = new LinkedHashMap<>();
+
+        for (Name gzhName : gzhNames){
+
+            String name = gzhName.getName();
+            result.put(name, datas.get(name));
+        }
+
         return result;
     }
 
