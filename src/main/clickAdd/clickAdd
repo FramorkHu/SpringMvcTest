@@ -651,7 +651,7 @@ Sub addAttion(attName)
 		If attName = "超神之路" Then 
 			Dim cszlX,cszlY
 			
-			FindMultiColor 126, 615, 369, 1038, "000000","24|7|000000,28|26|000000,12|57|010101,48|66|010101,49|76|010101", 0, 1, cszlX, cszlY			
+			FindMultiColor 201,572, 386,1158, "1A1A1A","-43|2|1A1A1A,5|15|1A1A1A,23|10|1A1A1A,-2|4|5E5E5E", 0, 1, cszlX, cszlY
 			
 			If cszlX > 0 Then 
 				clickPosition cszlX, cszlY, 3000
